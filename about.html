@@ -1,0 +1,640 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>MI CLUB - About</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        color: #171b27;
+
+        background:
+          radial-gradient(circle at 10% 20%, #c9f7ff 0%, transparent 35%),
+          radial-gradient(circle at 90% 20%, #d8c9ff 0%, transparent 35%),
+          radial-gradient(circle at 50% 90%, #d5faff 0%, transparent 40%),
+          #f7f7ff;
+
+        min-height: 100vh;
+      }
+
+      /* =========================================
+   HEADER / NAVBAR
+========================================= */
+
+      .top-header {
+        width: 100%;
+        height: 85px;
+
+        display: flex;
+        align-items: center;
+
+        padding: 0 40px;
+
+        background: rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+
+      /* =========================================
+   NAVBAR CONTAINER
+========================================= */
+
+      .nav-container {
+        width: 100%;
+        max-width: 1500px;
+
+        margin: 0 auto;
+
+        display: flex;
+        align-items: center;
+
+        justify-content: space-between;
+      }
+
+      /* =========================================
+   LEFT SIDE - TWO LOGOS
+========================================= */
+
+      .navbar-logos {
+        display: flex;
+        align-items: center;
+
+        gap: 12px;
+
+        flex-shrink: 0;
+      }
+
+      .navbar-logo {
+        width: 65px;
+        height: 65px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        flex-shrink: 0;
+      }
+
+      .navbar-logo img {
+        width: 60px;
+        height: 60px;
+
+        object-fit: contain;
+        display: block;
+
+        transition: 0.3s ease;
+      }
+
+      .navbar-logo img:hover {
+        transform: scale(1.08);
+      }
+
+      /* =========================================
+   CENTER - NAVIGATION LINKS
+========================================= */
+
+      .nav-links {
+        flex: 1;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        gap: 55px;
+
+        margin: 0 35px;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+
+        color: #d4d6e1;
+
+        font-size: 18px;
+        font-weight: 500;
+
+        white-space: nowrap;
+
+        transition: 0.3s ease;
+      }
+
+      .nav-links a:hover {
+        color: #ffffff;
+
+        transform: translateY(-2px);
+      }
+
+      /* =========================================
+   RIGHT SIDE - SIGN IN
+========================================= */
+
+      .signin {
+        flex-shrink: 0;
+
+        text-decoration: none;
+
+        background: #35247b;
+        color: #ffffff;
+
+        padding: 12px 23px;
+
+        border-radius: 8px;
+
+        font-size: 15px;
+        font-weight: 500;
+
+        white-space: nowrap;
+
+        transition: 0.3s ease;
+      }
+
+      .signin:hover {
+        background: #1d70e5;
+        transform: translateY(-2px);
+
+        box-shadow: 0 6px 18px rgba(29, 112, 229, 0.25);
+      }
+      /* ================= PAGE TITLE ================= */
+
+      .page-title {
+        text-align: center;
+
+        padding: 55px 20px 35px;
+      }
+
+      .page-title h1 {
+        font-family: Georgia, serif;
+
+        font-size: 48px;
+
+        color: #edecf2;
+
+        margin-bottom: 15px;
+      }
+
+      .page-title p {
+        color: #eddede;
+
+        font-size: 16px;
+
+        line-height: 1.6;
+      }
+
+      /* ================= DEPARTMENT CARD ================= */
+
+      .department {
+        max-width: 1050px;
+
+        margin: 0 auto 50px;
+
+        padding: 30px;
+
+        display: grid;
+
+        grid-template-columns: 1fr 1fr;
+
+        gap: 45px;
+
+        align-items: center;
+
+        background: rgba(255, 255, 255, 0.55);
+
+        border-radius: 25px;
+
+        box-shadow: 0 10px 30px rgba(60, 50, 100, 0.1);
+
+        backdrop-filter: blur(10px);
+      }
+
+      .department-content {
+        padding: 10px;
+      }
+
+      .department-content h2 {
+        font-family: Georgia, serif;
+
+        font-size: 32px;
+
+        color: #291f65;
+
+        margin-bottom: 20px;
+      }
+
+      .department-content p {
+        color: #444;
+
+        font-size: 15px;
+
+        line-height: 1.8;
+
+        text-align: justify;
+      }
+
+      /* =================================================
+           VIDEO AREA
+           SAME PLACE WHERE IMAGE WAS
+        ================================================= */
+
+      .department-image-box {
+        width: 100%;
+
+        height: 300px;
+
+        border-radius: 20px;
+
+        overflow: hidden;
+
+        background: #000;
+
+        position: relative;
+
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+      }
+
+      /* VIDEO EXACTLY FITS THE BOX */
+
+      .department-video {
+        width: 100%;
+
+        height: 100%;
+
+        display: block;
+
+        object-fit: cover;
+
+        object-position: center;
+
+        border-radius: 20px;
+      }
+
+      /* VIDEO HOVER */
+
+      .department-image-box:hover .department-video {
+        transform: scale(1.03);
+
+        transition: transform 0.4s ease;
+      }
+
+      /* ================= REVERSE CARD ================= */
+
+      .department.reverse {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .department.reverse .department-content {
+        order: 2;
+      }
+
+      .department.reverse .department-image-box {
+        order: 1;
+      }
+
+      /* ================= MOBILE ================= */
+
+      @media (max-width: 700px) {
+        .navbar {
+          height: 70px;
+        }
+
+        .nav-links {
+          gap: 15px;
+        }
+
+        .nav-links a {
+          font-size: 12px;
+        }
+
+        .page-title {
+          padding-top: 40px;
+        }
+
+        .page-title h1 {
+          font-size: 38px;
+        }
+
+        .department {
+          grid-template-columns: 1fr;
+
+          margin-left: 15px;
+          margin-right: 15px;
+
+          padding: 22px;
+
+          gap: 25px;
+        }
+
+        .department.reverse {
+          grid-template-columns: 1fr;
+        }
+
+        .department.reverse .department-content {
+          order: 1;
+        }
+
+        .department.reverse .department-image-box {
+          order: 2;
+        }
+
+        /* MOBILE VIDEO */
+
+        .department-image-box {
+          width: 100%;
+
+          height: 240px;
+
+          border-radius: 18px;
+        }
+
+        .department-video {
+          width: 100%;
+
+          height: 100%;
+
+          object-fit: cover;
+        }
+      }
+
+      /* =========================================
+         FULL SCREEN VIDEO BACKGROUND
+      ========================================= */
+      .video-background {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -10;
+        overflow: hidden;
+        pointer-events: none;
+        background: #111;
+      }
+
+      .video-background video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        display: block;
+      }
+
+      .video-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(20, 85, 107, 0.281);
+        backdrop-filter: blur(1px);
+      }
+
+      /* Keep page sections transparent so the video remains visible */
+      .hero,
+      .rules-wrap,
+      .faculty-section {
+        background: transparent;
+      }
+
+      @media (max-width: 600px) {
+        .video-background video {
+          object-position: center;
+        }
+
+        .video-overlay {
+          background: rgba(255, 255, 255, 0.62);
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- FULL SCREEN VIDEO BACKGROUND -->
+    <div class="video-background">
+      <video autoplay muted loop playsinline preload="auto">
+        <source src="images/cosmic.mp4" type="video/mp4" />
+      </video>
+      <div class="video-overlay"></div>
+    </div>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <header class="top-header">
+      <div class="nav-container">
+        <!-- LEFT : TWO LOGOS -->
+        <div class="navbar-logos">
+          <div class="navbar-logo">
+            <img src="images/MCW.png" alt="College Logo" />
+          </div>
+
+          <div class="navbar-logo">
+            <img src="images/logo3.png" alt="MI Club Logo" />
+          </div>
+        </div>
+
+        <!-- CENTER : MENU -->
+        <nav class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="events.html">Events</a>
+          <a href="staff.html">Faculties</a>
+          <a href="council.html">Council members</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+
+        <!-- RIGHT : SIGN IN -->
+        <a href="signin.html" class="signin"> Sign In → </a>
+      </div>
+    </header>
+
+    <!-- ================= PAGE TITLE ================= -->
+
+    <section class="page-title">
+      <h1>About Departments</h1>
+
+      <p>
+        Explore our departments, academic strengths, and the institution behind
+        MI CLUB.
+      </p>
+    </section>
+
+    <!-- =================================================
+         CS DEPARTMENT
+         CONTENT LEFT | VIDEO RIGHT
+    ================================================= -->
+
+    <section class="department">
+      <div class="department-content">
+        <h2>B.Sc Computer Science</h2>
+
+        <p>
+          The <strong>Computer Science (CS)</strong>
+          is committed to nurturing future-ready professionals through strong
+          foundations in programming, computer applications, and emerging
+          technologies. With a strong focus on
+          <strong>
+            technical skills, problem solving, communication, and practical
+            learning </strong
+          >, the department encourages students to participate in seminars,
+          workshops, coding challenges, and innovative activities. Through
+          continuous learning and innovation, the department strives to develop
+          confident, competent, and socially responsible professionals.
+        </p>
+      </div>
+
+      <!-- VIDEO -->
+
+      <div class="department-image-box">
+        <video class="department-video" muted playsinline preload="metadata">
+          <source src="images/CS vdo.mp4" type="video/mp4" />
+        </video>
+      </div>
+    </section>
+
+    <!-- =================================================
+         BCA DEPARTMENT
+         VIDEO LEFT | CONTENT RIGHT
+    ================================================= -->
+
+    <section class="department reverse">
+      <!-- VIDEO -->
+
+      <div class="department-image-box">
+        <video class="department-video" muted playsinline preload="metadata">
+          <source src="images/BCA vdo.mp4" type="video/mp4" />
+        </video>
+      </div>
+
+      <div class="department-content">
+        <h2>B.C.A (Bachelor of Computer Application)</h2>
+
+        <p>
+          The <strong>Computer Applications (BCA)</strong>
+          focuses on developing students with strong knowledge of computer
+          applications, programming, software development, and information
+          technology. Students are encouraged to develop
+          <strong>
+            logical thinking, technical skills, creativity, and problem-solving
+            abilities
+          </strong>
+
+          through practical learning and academic activities. The department
+          prepares students to meet the growing demands of the IT industry and
+          higher education.
+        </p>
+      </div>
+    </section>
+
+    <!-- =================================================
+         AI DEPARTMENT
+         CONTENT LEFT | VIDEO RIGHT
+    ================================================= -->
+
+    <section class="department">
+      <div class="department-content">
+        <h2>B.Sc Computer Science (Artificial Intelligence)</h2>
+
+        <p>
+          The <strong>Artificial Intelligence (AI)</strong>
+          introduces students to modern technologies that are transforming the
+          digital world. The department focuses on areas such as
+          <strong>
+            machine learning, artificial intelligence, data-driven technologies,
+            and intelligent systems.
+          </strong>
+
+          Students are encouraged to explore innovative ideas, develop practical
+          solutions, and gain knowledge about emerging technologies through
+          projects, workshops, and hands-on learning.
+        </p>
+      </div>
+
+      <!-- VIDEO -->
+
+      <div class="department-image-box">
+        <video class="department-video" muted playsinline preload="metadata">
+          <source src="images/AI vdo.mp4" type="video/mp4" />
+        </video>
+      </div>
+    </section>
+
+    <!-- =================================================
+         DATA SCIENCE
+         VIDEO LEFT | CONTENT RIGHT
+    ================================================= -->
+
+    <section class="department reverse">
+      <!-- VIDEO -->
+
+      <div class="department-image-box">
+        <video class="department-video" muted playsinline preload="metadata">
+          <source src="images/DSA vdo.mp4" type="video/mp4" />
+        </video>
+      </div>
+
+      <div class="department-content">
+        <h2>B.Sc Computer Science (Data Science and Analytics)</h2>
+
+        <p>
+          The <strong>Data Science And Analytics (DSA)</strong>
+          focuses on helping students understand data, analytics, statistics,
+          and modern computational techniques. Students develop skills in
+          <strong>
+            data analysis, visualization, programming, statistical methods, and
+            data-driven decision making.
+          </strong>
+
+          The department promotes practical learning and encourages students to
+          use data and technology to solve real-world problems.
+        </p>
+      </div>
+    </section>
+
+    <!-- ================= VIDEO AUTO PLAY ================= -->
+
+    <script>
+      const departmentVideos = document.querySelectorAll(".department-video");
+
+      const videoObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            const video = entry.target;
+
+            if (entry.isIntersecting) {
+              /* Card screen-ku varumbodhu START */
+
+              video.currentTime = 0;
+
+              video.play().catch(() => {
+                console.log("Video autoplay blocked");
+              });
+            } else {
+              /* Card screen-a vittu pogumbodhu STOP */
+
+              video.pause();
+
+              video.currentTime = 0;
+            }
+          });
+        },
+
+        {
+          threshold: 0.55,
+        },
+      );
+
+      departmentVideos.forEach((video) => {
+        videoObserver.observe(video);
+      });
+    </script>
+  </body>
+</html>

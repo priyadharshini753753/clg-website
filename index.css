@@ -1,0 +1,1695 @@
+* {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        color: #e9ecec;
+        background: transparent;
+        position: relative;
+      }
+
+      /* =========================================
+   HEADER / NAVBAR
+========================================= */
+
+      .top-header {
+        width: 100%;
+        height: 85px;
+
+        display: flex;
+        align-items: center;
+
+        padding: 0 40px;
+
+        background: rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+
+      /* =========================================
+   NAVBAR CONTAINER
+========================================= */
+
+      .nav-container {
+        width: 100%;
+        max-width: 1500px;
+
+        margin: 0 auto;
+
+        display: flex;
+        align-items: center;
+
+        justify-content: space-between;
+      }
+
+      /* =========================================
+   LEFT SIDE - TWO LOGOS
+========================================= */
+
+      .navbar-logos {
+        display: flex;
+        align-items: center;
+
+        gap: 12px;
+
+        flex-shrink: 0;
+      }
+
+      .navbar-logo {
+        width: 65px;
+        height: 65px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        flex-shrink: 0;
+      }
+
+      .navbar-logo img {
+        width: 60px;
+        height: 60px;
+
+        object-fit: contain;
+        display: block;
+
+        transition: 0.3s ease;
+      }
+
+      .navbar-logo img:hover {
+        transform: scale(1.08);
+      }
+
+      /* =========================================
+   CENTER - NAVIGATION LINKS
+========================================= */
+
+      .nav-links {
+        flex: 1;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        gap: 55px;
+
+        margin: 0 35px;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+
+        color: #f4f5f8;
+         font-family: "Josefin Sans", sans-serif;
+        font-size: 20px;
+        font-weight: 500;
+
+        white-space: nowrap;
+
+        transition: 0.3s ease;
+      }
+
+      .nav-links a:hover {
+        color: #ffffff;
+
+        transform: translateY(-2px);
+      }
+
+      /* =========================================
+   RIGHT SIDE - SIGN IN
+========================================= */
+
+      .signin {
+        flex-shrink: 0;
+
+        text-decoration: none;
+
+        background: #b4a7e8;
+        color: #ffffff;
+
+        padding: 12px 23px;
+
+        border-radius: 8px;
+
+        font-size: 15px;
+        font-weight: 500;
+
+        white-space: nowrap;
+
+        transition: 0.3s ease;
+      }
+
+      .signin:hover {
+        background: #6a86ad;
+        transform: translateY(-2px);
+
+        box-shadow: 0 6px 18px rgba(29, 112, 229, 0.25);
+      }
+
+      /* =========================================
+   MI CLUB HERO TITLE
+========================================= */
+
+      .hero h1 {
+        font-family: "Playfair Display", serif;
+
+        font-size: 72px;
+        font-weight: 600;
+
+        letter-spacing: 8px;
+        text-transform: uppercase;
+
+        color: #fbfbfb;
+
+        text-shadow: 0 3px 15px rgba(32, 36, 58, 0.12);
+
+        animation: titleReveal 1s ease forwards;
+      }
+
+      /* =========================================
+   TITLE ANIMATION
+========================================= */
+
+      @keyframes titleReveal {
+        from {
+          opacity: 0;
+
+          transform: translateY(20px);
+
+          letter-spacing: 15px;
+        }
+
+        to {
+          opacity: 1;
+
+          transform: translateY(0);
+
+          letter-spacing: 8px;
+        }
+      }
+
+      /* =========================================
+   MOBILE
+========================================= */
+
+      @media (max-width: 1100px) {
+        .nav-links {
+          gap: 25px;
+          margin: 0 20px;
+        }
+
+        .nav-links a {
+          font-size: 16px;
+        }
+
+        .navbar-logo img {
+          width: 55px;
+          height: 55px;
+        }
+      }
+
+      @media (max-width: 800px) {
+        .top-header {
+          height: auto;
+          padding: 12px 20px;
+        }
+
+        .nav-container {
+          flex-wrap: wrap;
+          gap: 15px;
+        }
+
+        .navbar-logos {
+          gap: 5px;
+        }
+
+        .navbar-logo {
+          width: 50px;
+          height: 50px;
+        }
+
+        .navbar-logo img {
+          width: 48px;
+          height: 48px;
+        }
+
+        .nav-links {
+          order: 3;
+
+          width: 100%;
+
+          margin: 10px 0 0;
+
+          gap: 18px;
+
+          justify-content: center;
+
+          flex-wrap: wrap;
+        }
+
+        .nav-links a {
+          font-size: 14px;
+        }
+
+        .signin {
+          padding: 10px 16px;
+          font-size: 14px;
+        }
+      }
+
+      /* =========================================
+   BRAND TEXT
+========================================= */
+
+      .brand-text {
+        display: flex;
+        flex-direction: column;
+
+        line-height: 1;
+      }
+
+      .brand-title {
+        font-family: Georgia, serif;
+
+        font-size: 18px;
+        font-weight: 700;
+
+        letter-spacing: 1px;
+
+        color: #20243a;
+      }
+
+      .brand-text small {
+        margin-top: 5px;
+
+        font-family: Arial, sans-serif;
+
+        font-size: 8px;
+
+        letter-spacing: 1.8px;
+
+        color: #667085;
+
+        font-weight: 600;
+      }
+
+      /* =========================================
+   HOVER
+========================================= */
+
+      .brand-logo:hover .mi-logo {
+        transform: translateY(-2px) rotate(-3deg);
+
+        box-shadow: 0 10px 25px rgba(36, 59, 120, 0.35);
+      }
+
+      .brand-logo:hover .brand-title {
+        color: #302276;
+      }
+
+      /* =========================================
+   MOBILE
+========================================= */
+
+      @media (max-width: 700px) {
+        .mi-logo {
+          width: 42px;
+          height: 42px;
+        }
+
+        .brand-title {
+          font-size: 19px;
+        }
+
+        .brand-text small {
+          font-size: 7px;
+        }
+      }
+
+      /* =========================
+   HOME
+========================= */
+      .hero {
+        min-height: 600px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 70px 20px;
+      }
+      .hero-content {
+        max-width: 950px;
+        width: 100%;
+      }
+      .registration-closed {
+        color: #b52d3b;
+        font-size: 16px;
+        margin-bottom: 18px;
+      }
+      .main-title {
+        font-family: "Times New Roman";
+        font-size: 70px;
+        font-weight: 900;
+        letter-spacing: 3px;
+        color: #d9dbe0;
+        margin-bottom: 18px;
+      }
+      .tagline {
+        font-size: 17px;
+        color: #f4f4f4;
+        margin-bottom: 25px;
+      }
+      .fest-title {
+        font-family: "Times New Roman";
+        font-size: 32px;
+        color: #fefeff;
+        margin-bottom: 18px;
+      }
+      .organized {
+        font-size: 18px;
+        margin-bottom: 10px;
+        color: #c9d1e8;
+        line-height: 1.6;
+      }
+      .college-name {
+        font-size: 18px;
+        margin-top: 10px;
+        color: #f1f3f9;
+        line-height: 1.6;
+      }
+
+      /* =========================
+   EXPLORE BUTTON
+========================= */
+      .explore-btn {
+        margin-top: 35px;
+        height: 54px;
+        min-width: 190px;
+        padding: 0 25px;
+        border-radius: 9px;
+        background: rgb(232, 212, 235);
+        border: 2px solid #b9b0ed;
+        color: #0d0d10;
+        font-size: 15px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 18px;
+        transition: 0.3s;
+      }
+      .explore-btn:hover {
+        background: #bdeaf7;
+        color: white;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(86, 62, 217, 0.25);
+      }
+      .arrow {
+        font-size: 24px;
+      }
+
+      /* =========================
+   SECTIONS
+========================= */
+      section {
+        scroll-margin-top: 80px;
+      }
+
+      /* =========================
+   ABOUT
+========================= */
+
+      .about-card {
+        max-width: 1100px;
+        margin: 0 auto 30px;
+
+        /* Transparent Glass Background */
+        background: rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+
+        /* Soft Glass Border */
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 20px;
+
+        /* Soft Shadow */
+        box-shadow: 0 8px 25px rgba(79, 70, 229, 0.12);
+
+        padding: 40px;
+
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 40px;
+        align-items: center;
+      }
+      /* =========================================
+   HOVER EFFECT
+========================================= */
+
+      .about-card:hover {
+        transform: translateY(-8px);
+
+        box-shadow: 0 25px 65px rgba(31, 55, 100, 0.18);
+      }
+
+      .about-content h2 {
+        font-family: "Playfair Display", "Times New Roman", serif;
+
+        font-size: 34px;
+        font-weight: 700;
+
+        color: #f1f2f4;
+
+        margin-bottom: 20px;
+
+        letter-spacing: 1px;
+      }
+
+      .about-content h2::after {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .about-content p {
+        font-size: 15px;
+        line-height: 1.8;
+        color: #f0f0f0;
+        text-align:justify;
+      }
+
+      .about-content p b,
+      .about-content p strong {
+        color: #666565;
+      }
+
+      .about-image {
+        width: 100%;
+        aspect-ratio: 4 / 3;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      .about-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      /* =========================================
+   ABOUT 2 - MI CLUB
+========================================= */
+
+      .about2-card {
+        width: 90%;
+        max-width: 1100px;
+        margin: 70px auto;
+        
+        display: flex;
+        align-items: center;
+        gap: 60px;
+
+        padding: 55px;
+
+        background: linear-gradient(135deg, #ffffff, #f5f8ff);
+
+        border-radius: 30px;
+
+        box-shadow: 0 20px 50px rgba(31, 55, 100, 0.12);
+
+        position: relative;
+        overflow: hidden;
+
+        transition: all 0.4s ease;
+      }
+
+      /* Hover Effect */
+
+      .about2-card:hover {
+        transform: translateY(-8px);
+
+        box-shadow: 0 25px 65px rgba(31, 55, 100, 0.18);
+      }
+
+      /* =========================================
+   DECORATIVE BACKGROUND
+========================================= */
+
+      .about2-card::before {
+        content: "";
+
+        position: absolute;
+
+        width: 250px;
+        height: 250px;
+
+        border-radius: 50%;
+
+        background: rgba(36, 59, 120, 0.06);
+
+        top: -100px;
+        right: -80px;
+      }
+
+      .about2-card::after {
+        content: "";
+
+        position: absolute;
+
+        width: 180px;
+        height: 180px;
+
+        border-radius: 50%;
+
+        background: rgba(0, 150, 200, 0.05);
+
+        bottom: -80px;
+        left: -60px;
+      }
+
+      /* =========================================
+   REVERSE LAYOUT
+========================================= */
+
+      .about2-card.reverse {
+        flex-direction: row-reverse;
+      }
+
+      /* =========================================
+   CONTENT
+========================================= */
+
+      .about2-content {
+        flex: 1;
+        position: relative;
+        z-index: 2;
+      }
+
+      .about2-tag {
+        display: inline-block;
+
+        padding: 7px 18px;
+
+        border-radius: 45px;
+
+        background: #21435c;
+        color: white;
+
+        font-size: 30px;
+        font-weight: 700;
+
+        letter-spacing: 2px;
+
+        margin-bottom: 18px;
+      }
+
+      .about2-content h2 {
+        font-size: 55px;
+
+        color: #253667;
+
+        margin: 0 0 20px;
+
+        line-height: 1.25;
+
+        font-weight: 700;
+      }
+
+      .about2-content p {
+        font-size: 18px;
+
+        color: #555;
+
+        line-height: 1.8;
+
+        margin: 0;
+
+        text-align: justify;
+      }
+
+      /* =========================================
+   SMALL DESIGN LINE
+========================================= */
+
+      .about2-line {
+        width: 70px;
+        height: 4px;
+
+        background: #ece6e6;
+
+        border-radius: 10px;
+
+        margin-top: 25px;
+      }
+
+      /* =========================================
+   IMAGE SECTION
+========================================= */
+
+      .about2-image {
+        flex: 0 0 360px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        position: relative;
+        z-index: 2;
+      }
+
+      /* =========================================
+   LOGO CIRCLE
+========================================= */
+
+      .logo-circle {
+        width: 330px;
+        height: 330px;
+
+        border-radius: 50%;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        background: white;
+
+        padding: 18px;
+
+        border: 8px solid #243b78;
+
+        box-shadow: 0 15px 35px rgba(36, 59, 120, 0.2);
+
+        transition: all 0.5s ease;
+      }
+
+      /* Logo */
+
+      .logo-circle img {
+        width: 100%;
+        height: 100%;
+
+        object-fit: contain;
+
+        border-radius: 50%;
+
+        transition: transform 0.5s ease;
+      }
+
+      /* =========================================
+   LOGO HOVER
+========================================= */
+
+      .about2-card:hover .logo-circle {
+        transform: rotate(3deg) scale(1.04);
+
+        box-shadow: 0 20px 45px rgba(36, 59, 120, 0.28);
+      }
+
+      .about2-card:hover .logo-circle img {
+        transform: scale(1.03);
+      }
+
+      /* =========================================
+   TABLET
+========================================= */
+
+      @media (max-width: 900px) {
+        .about2-card {
+          gap: 35px;
+          padding: 40px;
+        }
+
+        .about2-image {
+          flex: 0 0 280px;
+        }
+
+        .logo-circle {
+          width: 260px;
+          height: 260px;
+        }
+
+        .about2-content h2 {
+          font-size: 28px;
+        }
+      }
+
+      /* =========================================
+   MOBILE
+========================================= */
+
+      @media (max-width: 700px) {
+        .about2-card,
+        .about2-card.reverse {
+          flex-direction: column;
+
+          width: 88%;
+
+          padding: 35px 25px;
+
+          gap: 35px;
+
+          text-align: center;
+        }
+
+        .about2-image {
+          order: -1;
+
+          flex: none;
+        }
+
+        .logo-circle {
+          width: 220px;
+          height: 220px;
+
+          border-width: 6px;
+        }
+
+        .about2-content h2 {
+          font-size: 25px;
+        }
+
+        .about2-content p {
+          font-size: 14px;
+          text-align: center;
+        }
+
+        .about2-line {
+          margin: 20px auto 0;
+        }
+      }
+      /* Alternate layout — image left, content right */
+      .about-card.reverse {
+        grid-template-columns: 0.9fr 1.1fr;
+      }
+
+      .about-card.reverse .about-image {
+        order: -1;
+      }
+
+      @media (max-width: 800px) {
+        .about-card,
+        .about-card.reverse {
+          grid-template-columns: 1fr;
+          padding: 28px 22px;
+        }
+
+        .about-card.reverse .about-image {
+          order: 0;
+        }
+
+        .about-content h2 {
+          font-size: 26px;
+        }
+
+        /* =========================================
+   MI CLUB VIDEO FRAME
+========================================= */
+
+        .logo-circle {
+          width: 330px;
+          height: 330px;
+
+          border-radius: 50%;
+
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          background: #ffffff;
+
+          padding: 8px;
+
+          border: 8px solid #243b78;
+
+          box-shadow:
+            0 15px 35px rgba(36, 59, 120, 0.2),
+            0 0 0 10px rgba(255, 255, 255, 0.8);
+
+          overflow: hidden;
+
+          position: relative;
+
+          transition: all 0.5s ease;
+        }
+
+        /* VIDEO */
+
+        .logo-circle video {
+          width: 100%;
+          height: 100%;
+
+          object-fit: cover;
+
+          border-radius: 50%;
+
+          display: block;
+
+          transition: transform 0.6s ease;
+        }
+
+        /* HOVER */
+
+        .about2-card:hover .logo-circle {
+          transform: scale(1.04);
+
+          box-shadow:
+            0 20px 45px rgba(36, 59, 120, 0.28),
+            0 0 0 10px rgba(255, 255, 255, 0.85);
+        }
+
+        .about2-card:hover .logo-circle video {
+          transform: scale(1.05);
+        }
+      }
+      /* =========================
+   RULES
+========================= */
+
+      .rules-wrap {
+        display: flex;
+        justify-content: center;
+        padding: 60px 15px;
+      }
+
+      .rules-card {
+        width: 90%;
+        max-width: 650px;
+        margin: 0 auto 30px;
+        text-align: left;
+        font-family: "Times new roman";
+        transition: box-shadow 0.3s ease;
+
+        /* Transparent Glass Background */
+        background: rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(3px);
+        -webkit-backdrop-filter: blur(2px);
+
+        /* Soft Glass Border */
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 18px;
+
+        /* Soft Shadow */
+        box-shadow: 0 8px 25px rgba(79, 70, 229, 0.12);
+
+        padding: 40px;
+
+    
+      }
+
+      .rules-card:hover {
+        box-shadow: 0 15px 35px rgba(24, 87, 201, 0.15);
+      }
+
+      .rules-title {
+        text-align: center;
+        font-family: "Times new roman";
+        font-size: 35px;
+        font-weight: 700;
+        color: #e8ebef;
+        margin-bottom: 10px;
+      }
+
+      .rules-subtitle {
+        text-align: center;
+        font-size: 14.5px;
+        line-height: 1.6;
+        color: #f0f1f4;
+        margin-bottom: 34px;
+      }
+
+      .rules-list {
+        list-style: none;
+        padding-left: 0;
+        margin: 0;
+      }
+
+      .rules-list li {
+        position: relative;
+        padding-left: 26px;
+        font-size: 15.5px;
+        line-height: 1.75;
+        margin-bottom: 18px;
+        color: #eff2f3;
+      }
+
+      .rules-list li:last-child {
+        margin-bottom: 0;
+      }
+
+      .rules-list li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 8px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #a298de;
+      }
+
+      /* =========================================
+   FACULTY SECTION
+   ========================================= */
+
+      .faculty-section {
+        padding: 70px 5% 100px;
+        text-align: center;
+      }
+
+      .faculty-title {
+        font-family: "Times New Roman";
+        font-size: 40px;
+        font-weight: 800;
+
+        color: #f4f5f7;
+        margin-bottom: 12px;
+        line-height: 1.2;
+      }
+
+      .faculty-subtitle {
+        color: #6b7280;
+        font-size: 17px;
+        margin-bottom: 45px;
+      }
+
+      /* 4 CARDS */
+
+      .faculty-container {
+        width: 100%;
+        max-width: 1200px;
+        margin: auto;
+
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 28px;
+      }
+
+      /* CARD */
+
+      .faculty-card {
+        width: 100%;
+        background: rgba(244, 247, 248, 0.95);
+
+        
+        
+        padding: 18px;
+        border-radius: 20px;
+
+        border-top: 5px solid #6366f1;
+
+        box-shadow: 0 10px 30px rgba(79, 70, 229, 0.15);
+
+        text-align: center;
+
+        transition: 0.3s ease;
+      }
+
+      .faculty-card:nth-child(2n) {
+        border-top-color: #ec4899;
+      }
+
+      .faculty-card:nth-child(3n) {
+        border-top-color: #06b6d4;
+      }
+
+      .faculty-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 18px 35px rgba(79, 70, 229, 0.22);
+      }
+
+      /* =========================================
+   RECTANGULAR IMAGE
+   ========================================= */
+
+      .faculty-photo {
+        width: 100%;
+        height: 210px;
+
+        margin: 0 auto 20px;
+
+        border-radius: 16px;
+
+        overflow: hidden;
+
+        background: linear-gradient(135deg, #b7e0e5, #51d3d3);
+      }
+
+      .faculty-photo img {
+        width: 100%;
+        height: 100%;
+
+        object-fit: cover;
+        object-position: top center;
+
+        display: block;
+
+        transition: 0.4s ease;
+      }
+
+      .faculty-card:hover .faculty-photo img {
+        transform: scale(1.04);
+      }
+
+      /* =========================================
+   FACULTY DETAILS
+   ========================================= */
+
+      .faculty-info {
+        padding: 5px 5px 12px;
+      }
+
+      .faculty-info h3 {
+        font-family: "Times New Roman";
+
+        font-size: 20px;
+        font-weight: 700;
+
+        color: #040607;
+
+        margin-bottom: 9px;
+
+        line-height: 1.3;
+      }
+
+      .faculty-info p {
+        font-family: "Times New Roman";
+
+        font-size: 20px;
+
+        color: #6b7280;
+
+        line-height: 1.5;
+
+        margin: 0;
+      }
+
+      /* =========================================
+   TABLET
+   ========================================= */
+
+      @media (max-width: 1000px) {
+        .faculty-container {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      /* =========================================
+   MOBILE
+   ========================================= */
+
+      @media (max-width: 600px) {
+        .faculty-section {
+          padding: 60px 18px 80px;
+        }
+
+        .faculty-title {
+          font-size: 32px;
+        }
+
+        .faculty-subtitle {
+          font-size: 14px;
+        }
+
+        .faculty-container {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+
+        .faculty-card {
+          max-width: 330px;
+          margin: auto;
+        }
+
+        .faculty-photo {
+          height: 220px;
+        }
+      }
+      /* =========================
+   FOOTER
+========================= */
+      footer {
+        background: rgba(91, 76, 210, 0.2);
+        padding: 55px 30px 25px;
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+      }
+      .footer-container {
+        max-width: 1050px;
+        margin: auto;
+        display: grid;
+        grid-template-columns: 2fr 1fr 1.5fr;
+        gap: 50px;
+      }
+      .footer-title {
+        font-family: "Times New Roman";
+        font-size: 30px;
+        font-weight: bold;
+        margin-bottom: 15px;
+      }
+      .footer-description {
+        max-width: 400px;
+        font-size: 14px;
+        line-height: 1.8;
+        color: #555c6d;
+      }
+      .footer-column h3 {
+        font-size: 17px;
+        margin-bottom: 18px;
+      }
+      .footer-column a {
+        display: block;
+        text-decoration: none;
+        color: #555c6d;
+        font-size: 14px;
+        margin-bottom: 10px;
+        transition: 0.3s;
+      }
+      .footer-column a:hover {
+        color: #563ed9;
+      }
+      .footer-column p {
+        font-size: 13px;
+        color: #555c6d;
+        line-height: 1.8;
+        margin-bottom: 5px;
+      }
+      .footer-bottom {
+        max-width: 1050px;
+        margin: 40px auto 0;
+        padding-top: 20px;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        text-align: center;
+        font-size: 12px;
+        color: #727887;
+      }
+
+      /* =========================
+   TABLET
+========================= */
+      @media (max-width: 850px) {
+        .top-header {
+          padding: 0 5%;
+        }
+        .nav-links {
+          gap: 25px;
+        }
+        .nav-links a {
+          font-size: 14px;
+        }
+        .main-title {
+          font-size: 58px;
+        }
+        .faculty-container {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .footer-container {
+          grid-template-columns: 1fr 1fr;
+          gap: 35px;
+        }
+        .footer-brand {
+          grid-column: 1/-1;
+        }
+      }
+
+      /* =========================
+   MOBILE
+========================= */
+      @media (max-width: 600px) {
+        .top-header {
+          height: auto;
+          min-height: 70px;
+          padding: 15px 4%;
+          flex-wrap: wrap;
+          gap: 12px;
+        }
+        .logo {
+          font-size: 20px;
+        }
+        .signin {
+          font-size: 12px;
+          padding: 9px 13px;
+        }
+        .nav-links {
+          order: 3;
+          width: 100%;
+          justify-content: center;
+          gap: 18px;
+        }
+        .nav-links a {
+          font-size: 12px;
+        }
+
+        /* HOME */
+        .hero {
+          min-height: 600px;
+          padding: 60px 15px;
+        }
+        .registration-closed {
+          font-size: 14px;
+        }
+        .main-title {
+          font-size: 42px;
+          letter-spacing: 1px;
+        }
+        .tagline {
+          font-size: 14px;
+        }
+        .fest-title {
+          font-size: 25px;
+        }
+        .organized {
+          font-size: 14px;
+        }
+        .college-name {
+          font-size: 14px;
+        }
+
+        /* ABOUT */
+        .about-section {
+          padding: 75px 15px;
+        }
+        .about-heading {
+          font-size: 27px;
+        }
+        .about-text {
+          font-size: 18px;
+          line-height: 1.8;
+          margin-bottom: 65px;
+        }
+
+        /* RULES */
+        .rules-card {
+          width: 95%;
+          padding: 30px 22px;
+        }
+        .rules-title {
+          font-size: 20px;
+        }
+        .rules-list li {
+          font-size: 14px;
+        }
+
+        /* FACULTY */
+        .faculty-section {
+          padding: 70px 15px 80px;
+        }
+        .faculty-container {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 14px;
+        }
+        .faculty-photo {
+          height: 170px;
+          font-size: 12px;
+        }
+        .faculty-info {
+          padding: 12px 7px;
+        }
+        .faculty-info h3 {
+          font-size: 13px;
+        }
+        .faculty-info p {
+          font-size: 10px;
+        }
+
+        /* FOOTER */
+        .footer-container {
+          grid-template-columns: 1fr;
+          gap: 30px;
+        }
+        .footer-brand {
+          grid-column: auto;
+        }
+      }
+
+      /* =========================================
+         FULL SCREEN VIDEO BACKGROUND
+      ========================================= */
+      .video-background {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -10;
+        overflow: hidden;
+        pointer-events: none;
+        background: #111;
+      }
+
+      .video-background video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        display: block;
+      }
+
+      .video-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(20, 85, 107, 0.281);
+        backdrop-filter: blur(1px);
+      }
+
+      /* Keep page sections transparent so the video remains visible */
+      .hero,
+      .rules-wrap,
+      .faculty-section {
+        background: transparent;
+      }
+
+      @media (max-width: 600px) {
+        .video-background video {
+          object-position: center;
+        }
+
+        .video-overlay {
+          background: rgba(255, 255, 255, 0.62);
+        }
+      }
+
+        /* =========================================
+   ABOUT 3 - MI CLUB
+========================================= */
+
+.about3-card {
+    max-width: 1100px;
+    margin: 40px auto 30px;
+
+    padding: 45px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 55px;
+
+    position: relative;
+    overflow: hidden;
+
+    /* Transparent Glass Effect */
+    background: rgba(255, 255, 255, 0.10);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    border: 1px solid rgba(255, 255, 255, 0.25);
+
+    border-radius: 22px;
+
+    box-shadow:
+        0 12px 35px rgba(36, 59, 120, 0.12);
+}
+
+
+/* =========================================
+   DECORATIVE BACKGROUND
+========================================= */
+
+.about3-card::before {
+    content: "";
+
+    position: absolute;
+
+    width: 250px;
+    height: 250px;
+
+    border-radius: 50%;
+
+    background: rgba(36, 59, 120, 0.06);
+
+    top: -100px;
+    right: -80px;
+
+    pointer-events: none;
+}
+
+.about3-card::after {
+    content: "";
+
+    position: absolute;
+
+    width: 180px;
+    height: 180px;
+
+    border-radius: 50%;
+
+    background: rgba(0, 150, 200, 0.05);
+
+    bottom: -80px;
+    left: -60px;
+
+    pointer-events: none;
+}
+
+
+/* =========================================
+   CONTENT
+========================================= */
+
+.about3-content {
+    flex: 1;
+
+    position: relative;
+    z-index: 2;
+}
+
+
+/* =========================================
+   MI CLUB TAG
+========================================= */
+
+.about3-tag {
+    display: inline-block;
+
+    padding: 8px 20px;
+
+    border-radius: 45px;
+
+    
+
+    color: rgb(242, 237, 237);
+
+    font-size: 55px;
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 18px;
+}
+
+
+/* =========================================
+   HEADING
+========================================= */
+
+.about3-content h3 {
+    font-family: "Playfair Display", serif;
+
+    font-size: 30px;
+
+    color: #e2e5ec;
+
+    margin: 0 0 20px;
+
+    line-height: 1.3;
+
+    font-weight: 700;
+}
+
+
+/* =========================================
+   DESCRIPTION
+========================================= */
+
+.about3-content p {
+    font-size: 18px;
+
+    color: #f1eded;
+
+    line-height: 1.8;
+
+    margin: 0;
+
+    text-align: justify;
+}
+
+
+/* =========================================
+   SMALL DESIGN LINE
+========================================= */
+
+.about3-line {
+    width: 70px;
+    height: 4px;
+
+    background: #243b78;
+
+    border-radius: 10px;
+
+    margin-top: 25px;
+}
+
+
+/* =========================================
+   IMAGE SECTION
+========================================= */
+
+.about3-image {
+    flex: 0 0 360px;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    position: relative;
+
+    z-index: 2;
+}
+
+
+/* =========================================
+   SQUARE LOGO FRAME
+========================================= */
+
+.logo-square3 {
+    width: 330px;
+    height: 330px;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    /* Glass Frame */
+    background: rgba(255, 255, 255, 0.12);
+
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+
+    padding: 18px;
+
+    border: 7px solid #dadee8;
+
+    border-radius: 5px;
+
+    box-shadow:
+        0 15px 35px rgba(36, 59, 120, 0.20);
+
+    transition: all 0.5s ease;
+}
+
+
+/* =========================================
+   LOGO IMAGE
+========================================= */
+
+.logo-square3 img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    border-radius: 10px;
+
+    transition: transform 0.5s ease;
+}
+
+
+/* =========================================
+   HOVER EFFECT
+========================================= */
+
+.about3-card:hover .logo-square3 {
+    transform: translateY(-5px) scale(1.03);
+
+    box-shadow:
+        0 20px 45px rgba(36, 59, 120, 0.28);
+}
+
+.about3-card:hover .logo-square3 img {
+    transform: scale(1.03);
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 900px) {
+
+    .about3-card {
+        gap: 35px;
+
+        padding: 40px;
+    }
+
+    .about3-image {
+        flex: 0 0 280px;
+    }
+
+    .logo-square3 {
+        width: 260px;
+        height: 260px;
+    }
+
+    .about3-content h3 {
+        font-size: 30px;
+    }
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 700px) {
+
+    .about3-card {
+        flex-direction: column;
+
+        width: 88%;
+
+        padding: 35px 25px;
+
+        gap: 35px;
+
+        text-align: center;
+    }
+
+    .about3-image {
+        order: -1;
+
+        flex: none;
+    }
+
+    .logo-square3 {
+        width: 220px;
+        height: 220px;
+
+        border-width: 6px;
+    }
+
+    .about3-content h3 {
+        font-size: 25px;
+    }
+
+    .about3-content p {
+        font-size: 14px;
+
+        text-align: center;
+    }
+
+    .about3-line {
+        margin: 20px auto 0;
+    }
+}

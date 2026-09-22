@@ -1,0 +1,1427 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>MI Club Membership Card | Mangayarkarasi College</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        font-family: Arial, Helvetica, sans-serif;
+
+        background:
+          radial-gradient(circle at top left, #d7f7fa, transparent 45%),
+          radial-gradient(circle at bottom right, #e3eaff, transparent 45%),
+          #f8f4fa;
+
+        color: #111;
+      }
+
+      /* ================= NAVBAR ================= */
+
+      .navbar {
+        height: 68px;
+        padding: 0 7%;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+
+        background: rgba(255, 255, 255, 0.94);
+        backdrop-filter: blur(15px);
+
+        border-bottom: 1px solid rgba(86, 62, 217, 0.12);
+      }
+
+      .nav-logo {
+        color: #563ed9;
+        font-size: 22px;
+        font-weight: 900;
+        text-decoration: none;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 22px;
+        align-items: center;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: #444;
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      .nav-links a:hover,
+      .nav-links a.active {
+        color: #563ed9;
+      }
+
+      /* ================= PAGE ================= */
+
+      .page {
+        width: 100%;
+        max-width: 1120px;
+
+        margin: auto;
+
+        padding: 40px 22px 60px;
+      }
+
+      .page-title {
+        text-align: center;
+
+        color: #dfdee9;
+
+        font-size: 31px;
+        font-weight: 900;
+
+        margin-bottom: 7px;
+      }
+
+      .page-subtitle {
+        text-align: center;
+
+        color: #eceaea;
+
+        font-size: 14px;
+
+        margin-bottom: 30px;
+      }
+
+      /* ================= WORKSPACE ================= */
+
+      .workspace {
+        display: grid;
+
+        grid-template-columns: 360px 1fr;
+
+        gap: 30px;
+
+        align-items: start;
+      }
+
+      /* ================= PANELS ================= */
+
+      .panel {
+        background: rgba(255, 255, 255, 0.95);
+
+        padding: 25px;
+
+        border-radius: 20px;
+
+        box-shadow: 0 18px 45px rgba(0, 0, 0, 0.1);
+
+        border: 1px solid rgba(255, 255, 255, 0.9);
+      }
+
+      .panel h2 {
+        color: #222;
+
+        font-size: 20px;
+
+        margin-bottom: 20px;
+      }
+
+      /* ================= PHOTO ================= */
+
+      .photo-area {
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: center;
+
+        margin-bottom: 20px;
+      }
+
+      .photo-preview {
+        width: 120px;
+        height: 145px;
+
+        border: 2px dashed #bdb5e9;
+
+        border-radius: 10px;
+
+        background: #f6f3ff;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        overflow: hidden;
+
+        margin-bottom: 12px;
+      }
+
+      .photo-preview img {
+        width: 100%;
+        height: 100%;
+
+        object-fit: cover;
+
+        display: none;
+      }
+
+      .photo-placeholder {
+        color: #8878c9;
+
+        font-size: 13px;
+
+        text-align: center;
+
+        font-weight: 700;
+      }
+
+      .photo-buttons {
+        width: 100%;
+
+        display: flex;
+
+        gap: 8px;
+      }
+
+      .photo-btn {
+        flex: 1;
+
+        padding: 10px;
+
+        border: 1px solid #563ed9;
+
+        border-radius: 8px;
+
+        background: #fff;
+
+        color: #563ed9;
+
+        font-size: 13px;
+
+        font-weight: 700;
+
+        cursor: pointer;
+      }
+
+      .photo-btn:hover {
+        background: #563ed9;
+        color: #fff;
+      }
+
+      #photoInput {
+        display: none;
+      }
+
+      /* ================= FORM ================= */
+
+      .form-group {
+        margin-bottom: 14px;
+      }
+
+      label {
+        display: block;
+
+        margin-bottom: 6px;
+
+        color: #333;
+
+        font-size: 13px;
+
+        font-weight: 800;
+      }
+
+      input {
+        width: 100%;
+
+        padding: 12px 13px;
+
+        border: 1px solid #d7d7d7;
+
+        border-radius: 9px;
+
+        outline: none;
+
+        font-size: 14px;
+
+        background: #fff;
+      }
+
+      input[readonly] {
+        background: #f7f7f7;
+
+        color: #444;
+      }
+
+      /* ================= BUTTONS ================= */
+
+      .action-btn,
+      .secondary-btn {
+        width: 100%;
+
+        padding: 12px;
+
+        border-radius: 9px;
+
+        font-size: 13px;
+
+        font-weight: 800;
+
+        cursor: pointer;
+      }
+
+      .action-btn {
+        margin-top: 6px;
+
+        border: 0;
+
+        background: #111;
+
+        color: #fff;
+      }
+
+      .action-btn:hover {
+        background: #333;
+      }
+
+      .secondary-btn {
+        margin-top: 9px;
+
+        border: 1px solid #ccc;
+
+        background: #fff;
+
+        color: #444;
+      }
+
+      .secondary-btn:hover {
+        background: #f4f4f4;
+      }
+
+      /* ================= PREVIEW ================= */
+
+      .preview-title {
+        text-align: center;
+
+        color: #222;
+
+        font-size: 20px;
+
+        margin-bottom: 18px;
+      }
+
+      .card-wrapper {
+        display: flex;
+
+        justify-content: center;
+
+        width: 100%;
+      }
+
+      /* =====================================================
+       MI CLUB MEMBERSHIP CARD
+       ===================================================== */
+
+      .club-card {
+        width: 560px;
+
+        height: 340px;
+
+        max-width: 100%;
+
+        position: relative;
+
+        overflow: hidden;
+
+        padding: 23px 27px;
+
+        border-radius: 16px;
+
+        border: 2px solid #111;
+
+        /*
+        BACKGROUND IMAGE
+
+        Put your image here:
+
+        /* ONLY YOUR IMAGE */
+        background-image: url("images/bckgrnd.jpg");
+
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+
+        color: #000;
+      }
+
+      /* Inner border */
+
+      .club-card::after {
+        content: "";
+
+        position: absolute;
+
+        inset: 8px;
+
+        border: 1px solid rgba(0, 0, 0, 0.28);
+
+        border-radius: 11px;
+
+        pointer-events: none;
+      }
+
+      /* ================= CARD HEADER ================= */
+
+      .card-top {
+        position: relative;
+
+        min-height: 86px;
+
+        z-index: 2;
+      }
+
+      /* LEFT LOGO */
+
+      .college-logo {
+        position: absolute;
+
+        left: 0;
+        top: 0;
+
+        width: 67px;
+        height: 67px;
+
+        object-fit: contain;
+      }
+
+      /* CENTER TITLE */
+
+      .card-heading {
+        text-align: center;
+
+        padding: 1px 55px 0 70px;
+      }
+
+      .college-name {
+        color: #edeaea;
+
+        font-size: 15px;
+
+        font-weight: 900;
+
+        letter-spacing: 0.6px;
+
+        line-height: 1.25;
+      }
+
+      .club-name {
+        color: #f9f5f5;
+
+        font-size: 30px;
+
+        font-weight: 900;
+
+        letter-spacing: 2.5px;
+
+        margin-top: 7px;
+
+        line-height: 1;
+      }
+
+      .membership-title {
+        color: #f8f0f0;
+
+        font-size: 10px;
+
+        font-weight: 900;
+
+        letter-spacing: 2px;
+
+        margin-top: 7px;
+      }
+
+      /* ================= CARD CONTENT ================= */
+
+      .card-content {
+        position: relative;
+
+        z-index: 2;
+
+        display: flex;
+
+        gap: 22px;
+
+        margin-top: 3px;
+
+        align-items: center;
+      }
+
+      /* PHOTO */
+
+      .card-photo {
+        width: 112px;
+        height: 137px;
+
+        flex-shrink: 0;
+
+        border: 2px solid #000;
+
+        border-radius: 5px;
+
+        overflow: hidden;
+
+        background: rgba(255, 255, 255, 0.75);
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+      }
+
+      .card-photo img {
+        width: 100%;
+        height: 100%;
+
+        object-fit: cover;
+
+        display: none;
+      }
+
+      .card-photo-placeholder {
+        color: #f8f3f3;
+
+        font-size: 10px;
+
+        font-weight: 900;
+      }
+
+      /* DETAILS */
+
+      .card-details {
+        flex: 1;
+
+        padding-top: 2px;
+      }
+
+      .card-row {
+        display: flex;
+
+        align-items: baseline;
+
+        margin-bottom: 11px;
+      }
+
+      .card-label {
+        width: 130px;
+
+        flex-shrink: 0;
+
+        color: #e9e3e3;
+
+        font-size: 10px;
+
+        font-weight: 900;
+
+        text-transform: uppercase;
+
+        letter-spacing: 0.35px;
+      }
+
+      .card-label::after {
+        content: ":";
+
+        margin-left: 5px;
+      }
+
+      .card-value {
+        flex: 1;
+
+        color: #f5f0f0;
+
+        font-size: 14px;
+
+        font-weight: 900;
+
+        word-break: break-word;
+      }
+
+      /* ================= CARD FOOTER ================= */
+
+      .card-footer {
+        position: absolute;
+
+        z-index: 2;
+
+        left: 27px;
+
+        right: 27px;
+
+        bottom: 16px;
+
+        display: flex;
+
+        justify-content: space-between;
+
+        color: #efe8e8;
+
+        font-size: 9px;
+
+        font-weight: 900;
+
+        letter-spacing: 1px;
+      }
+
+      .valid-badge {
+        color: #f3efef;
+
+        font-weight: 900;
+      }
+
+      /* ================= NOT LOGGED ================= */
+
+      .not-logged {
+        max-width: 600px;
+
+        margin: 0 auto 20px;
+
+        padding: 18px;
+
+        border-radius: 12px;
+
+        background: #fff4e0;
+
+        color: #8b5a00;
+
+        text-align: center;
+
+        font-size: 14px;
+
+        font-weight: 700;
+      }
+
+      /* ================= RESPONSIVE ================= */
+
+      @media (max-width: 900px) {
+        .workspace {
+          grid-template-columns: 1fr;
+        }
+
+        .controls-panel {
+          max-width: 600px;
+
+          width: 100%;
+
+          margin: auto;
+        }
+
+        .navbar {
+          padding: 0 20px;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .page {
+          padding: 28px 14px 45px;
+        }
+
+        .club-card {
+          height: auto;
+
+          min-height: 315px;
+
+          padding: 20px;
+        }
+
+        .card-heading {
+          padding-left: 55px;
+
+          padding-right: 25px;
+        }
+
+        .college-logo {
+          width: 55px;
+
+          height: 55px;
+        }
+
+        .club-name {
+          font-size: 23px;
+        }
+
+        .college-name {
+          font-size: 12px;
+        }
+
+        .card-content {
+          gap: 14px;
+        }
+
+        .card-photo {
+          width: 88px;
+
+          height: 112px;
+        }
+
+        .card-label {
+          width: 105px;
+
+          font-size: 8px;
+        }
+
+        .card-value {
+          font-size: 11px;
+        }
+
+        .card-footer {
+          left: 20px;
+
+          right: 20px;
+        }
+
+        .nav-links {
+          gap: 11px;
+        }
+
+        .nav-links a {
+          font-size: 11px;
+        }
+      }
+
+      /* ================= PRINT ================= */
+
+      @media print {
+        @page {
+          size: auto;
+
+          margin: 0;
+        }
+
+        body {
+          background: #fff;
+        }
+
+        .navbar,
+        .page-title,
+        .page-subtitle,
+        .controls-panel,
+        .preview-title,
+        .not-logged {
+          display: none !important;
+        }
+
+        .page {
+          padding: 0;
+
+          max-width: none;
+        }
+
+        .workspace {
+          display: block;
+        }
+
+        .panel {
+          padding: 0;
+
+          border: 0;
+
+          box-shadow: none;
+
+          background: transparent;
+        }
+
+        .card-wrapper {
+          margin: 35px auto;
+        }
+
+        .club-card {
+          box-shadow: none;
+        }
+      }
+
+      /* =========================================
+         FULL SCREEN VIDEO BACKGROUND
+      ========================================= */
+      .video-background {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -10;
+        overflow: hidden;
+        pointer-events: none;
+        background: #111;
+      }
+
+      .video-background video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        display: block;
+      }
+
+      .video-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(20, 85, 107, 0.281);
+        backdrop-filter: blur(1px);
+      }
+
+      /* Keep page sections transparent so the video remains visible */
+      .hero,
+      .rules-wrap,
+      .faculty-section {
+        background: transparent;
+      }
+
+      @media (max-width: 600px) {
+        .video-background video {
+          object-position: center;
+        }
+
+        .video-overlay {
+          background: rgba(255, 255, 255, 0.62);
+        }
+      }
+
+      /* =========================================
+   HEADER / NAVBAR
+========================================= */
+
+      .top-header {
+        width: 100%;
+        height: 85px;
+
+        display: flex;
+        align-items: center;
+
+        padding: 0 40px;
+
+        background: rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+
+      /* =========================================
+   NAVBAR CONTAINER
+========================================= */
+
+      .nav-container {
+        width: 100%;
+        max-width: 1500px;
+
+        margin: 0 auto;
+
+        display: flex;
+        align-items: center;
+
+        justify-content: space-between;
+      }
+
+      /* =========================================
+   LEFT SIDE - TWO LOGOS
+========================================= */
+
+      .navbar-logos {
+        display: flex;
+        align-items: center;
+
+        gap: 12px;
+
+        flex-shrink: 0;
+      }
+
+      .navbar-logo {
+        width: 65px;
+        height: 65px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        flex-shrink: 0;
+      }
+
+      .navbar-logo img {
+        width: 60px;
+        height: 60px;
+
+        object-fit: contain;
+        display: block;
+
+        transition: 0.3s ease;
+      }
+
+      .navbar-logo img:hover {
+        transform: scale(1.08);
+      }
+
+      /* =========================================
+   CENTER - NAVIGATION LINKS
+========================================= */
+
+      .nav-links {
+        flex: 1;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        gap: 55px;
+
+        margin: 0 35px;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+
+        color: #d4d6e1;
+
+        font-size: 18px;
+        font-weight: 500;
+
+        white-space: nowrap;
+
+        transition: 0.3s ease;
+      }
+
+      .nav-links a:hover {
+        color: #ffffff;
+
+        transform: translateY(-2px);
+      }
+
+      /* =========================================
+   RIGHT SIDE - SIGN IN
+========================================= */
+
+      .signin {
+        flex-shrink: 0;
+
+        text-decoration: none;
+
+        background: #35247b;
+        color: #ffffff;
+
+        padding: 12px 23px;
+
+        border-radius: 8px;
+
+        font-size: 15px;
+        font-weight: 500;
+
+        white-space: nowrap;
+
+        transition: 0.3s ease;
+      }
+
+      .signin:hover {
+        background: #1d70e5;
+        transform: translateY(-2px);
+
+        box-shadow: 0 6px 18px rgba(29, 112, 229, 0.25);
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- FULL SCREEN VIDEO BACKGROUND -->
+    <div class="video-background">
+      <video autoplay muted loop playsinline preload="auto">
+        <source src="images/cosmic.mp4" type="video/mp4" />
+      </video>
+      <div class="video-overlay"></div>
+    </div>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <header class="top-header">
+      <div class="nav-container">
+        <!-- LEFT : TWO LOGOS -->
+        <div class="navbar-logos">
+          <div class="navbar-logo">
+            <img src="images/mcwlogo.png" alt="College Logo" />
+          </div>
+
+          <div class="navbar-logo">
+            <img src="images/logo3.png" alt="MI Club Logo" />
+          </div>
+        </div>
+
+        <!-- CENTER : MENU -->
+        <nav class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="events.html">Events</a>
+          <a href="staff.html">Faculties</a>
+          <a href="council.html">Council members</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+
+        <!-- RIGHT : SIGN IN -->
+        <a href="signin.html" class="signin"> Sign In → </a>
+      </div>
+    </header>
+
+    <!-- ================= PAGE ================= -->
+
+    <main class="page">
+      <h1 class="page-title">MI Club Membership Card</h1>
+
+      <p class="page-subtitle">
+        Create and download your official MI Club membership card
+      </p>
+
+      <!-- LOGIN WARNING -->
+
+      <div id="notLogged" class="not-logged" style="display: none">
+        Please login from the Sign In page first.
+
+        <br />
+        <br />
+
+        <button class="secondary-btn" onclick="location.href = 'signin.html'">
+          Go to Sign In
+        </button>
+      </div>
+
+      <div class="workspace">
+        <!-- ================= LEFT PANEL ================= -->
+
+        <section class="panel controls-panel">
+          <h2>Participant Details</h2>
+
+          <!-- PHOTO -->
+
+          <div class="photo-area">
+            <div class="photo-preview">
+              <img id="uploadedPhoto" alt="Participant Photo" />
+
+              <div id="photoPlaceholder" class="photo-placeholder">
+                Add Photo
+              </div>
+            </div>
+
+            <input type="file" id="photoInput" accept="image/*" />
+
+            <div class="photo-buttons">
+              <button
+                class="photo-btn"
+                type="button"
+                onclick="document.getElementById('photoInput').click()"
+              >
+                Upload Photo
+              </button>
+
+              <button class="photo-btn" type="button" onclick="openCamera()">
+                Camera
+              </button>
+            </div>
+          </div>
+
+          <!-- NAME -->
+
+          <div class="form-group">
+            <label> Name </label>
+
+            <input id="cardName" readonly />
+          </div>
+
+          <!-- REGISTER NUMBER -->
+
+          <div class="form-group">
+            <label> Register Number </label>
+
+            <input id="cardRegisterNumber" readonly />
+          </div>
+
+          <!-- BATCH -->
+
+          <div class="form-group">
+            <label> Batch </label>
+
+            <input id="cardBatch" readonly />
+          </div>
+
+          <!-- DOMAIN -->
+
+          <div class="form-group">
+            <label> Domain / Department </label>
+
+            <input id="cardDomain" readonly />
+          </div>
+
+          <!-- DOWNLOAD -->
+
+          <button class="action-btn" type="button" onclick="downloadCard()">
+            Download Membership Card PNG
+          </button>
+
+          <!-- PRINT -->
+
+          <button class="secondary-btn" type="button" onclick="window.print()">
+            Print / Save as PDF
+          </button>
+
+          <!-- BACK -->
+
+          <button
+            class="secondary-btn"
+            type="button"
+            onclick="location.href = 'signin.html'"
+          >
+            Back to Sign In
+          </button>
+        </section>
+
+        <!-- ================= RIGHT PANEL ================= -->
+
+        <section class="panel">
+          <h2 class="preview-title">Card Preview</h2>
+
+          <div class="card-wrapper">
+            <!-- =================================================
+               MI CLUB MEMBERSHIP CARD
+          ================================================= -->
+
+            <div class="club-card" id="clubCard">
+              <!-- ================= CARD HEADER ================= -->
+
+              <div class="card-top">
+                <!-- LEFT COLLEGE LOGO -->
+
+                <img
+                  src="images/logo3.png"
+                  class="college-logo"
+                  alt="Mangayarkarasi College Logo"
+                />
+
+                <!-- CENTER TEXT -->
+
+                <div class="card-heading">
+                  <div class="college-name">MANGAYARKARASI COLLEGE</div>
+
+                  <div class="club-name">MI CLUB</div>
+
+                  <div class="membership-title">MEMBERSHIP CARD</div>
+                </div>
+              </div>
+
+              <!-- ================= CARD BODY ================= -->
+
+              <div class="card-content">
+                <!-- STUDENT PHOTO -->
+
+                <div class="card-photo">
+                  <img id="cardPhoto" alt="Participant Photo" />
+
+                  <div id="cardPhotoPlaceholder" class="card-photo-placeholder">
+                    PHOTO
+                  </div>
+                </div>
+
+                <!-- STUDENT DETAILS -->
+
+                <div class="card-details">
+                  <!-- NAME -->
+
+                  <div class="card-row">
+                    <div class="card-label">Name</div>
+
+                    <div class="card-value" id="previewName">—</div>
+                  </div>
+
+                  <!-- REGISTER NUMBER -->
+
+                  <div class="card-row">
+                    <div class="card-label">Register Number</div>
+
+                    <div class="card-value" id="previewRegister">—</div>
+                  </div>
+
+                  <!-- BATCH -->
+
+                  <div class="card-row">
+                    <div class="card-label">Batch</div>
+
+                    <div class="card-value" id="previewBatch">—</div>
+                  </div>
+
+                  <!-- DOMAIN -->
+
+                  <div class="card-row">
+                    <div class="card-label">Domain</div>
+
+                    <div class="card-value" id="previewDomain">—</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ================= CARD FOOTER ================= -->
+
+              <div class="card-footer">
+                <span> MI CLUB </span>
+
+                <span class="valid-badge"> OFFICIAL MEMBER </span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+      let participant = null;
+
+      /* ==========================================
+       LOAD LOGGED-IN PARTICIPANT
+    ========================================== */
+
+      function loadParticipant() {
+        const saved = localStorage.getItem("miClubParticipant");
+
+        if (!saved) {
+          document.getElementById("notLogged").style.display = "block";
+
+          document.querySelector(".workspace").style.display = "none";
+
+          return;
+        }
+
+        try {
+          participant = JSON.parse(saved);
+        } catch (error) {
+          console.error(error);
+
+          document.getElementById("notLogged").style.display = "block";
+
+          document.querySelector(".workspace").style.display = "none";
+
+          return;
+        }
+
+        /* LEFT FORM */
+
+        document.getElementById("cardName").value = participant.name || "";
+
+        document.getElementById("cardRegisterNumber").value =
+          participant.registerNumber || "";
+
+        document.getElementById("cardBatch").value = participant.batch || "";
+
+        document.getElementById("cardDomain").value = participant.domain || "";
+
+        /* CARD DATA */
+
+        document.getElementById("previewName").textContent =
+          participant.name || "—";
+
+        document.getElementById("previewRegister").textContent =
+          participant.registerNumber || "—";
+
+        document.getElementById("previewBatch").textContent =
+          participant.batch || "—";
+
+        document.getElementById("previewDomain").textContent =
+          participant.domain || "—";
+      }
+
+      /* ==========================================
+       SET PHOTO
+    ========================================== */
+
+      function setPhoto(src) {
+        const upload = document.getElementById("uploadedPhoto");
+
+        const card = document.getElementById("cardPhoto");
+
+        upload.src = src;
+
+        upload.style.display = "block";
+
+        document.getElementById("photoPlaceholder").style.display = "none";
+
+        card.src = src;
+
+        card.style.display = "block";
+
+        document.getElementById("cardPhotoPlaceholder").style.display = "none";
+      }
+
+      /* ==========================================
+       UPLOAD PHOTO
+    ========================================== */
+
+      document
+        .getElementById("photoInput")
+        .addEventListener("change", function (event) {
+          const file = event.target.files[0];
+
+          if (!file) return;
+
+          if (!file.type.startsWith("image/")) {
+            alert("Please select an image file.");
+
+            return;
+          }
+
+          const reader = new FileReader();
+
+          reader.onload = function (event) {
+            setPhoto(event.target.result);
+          };
+
+          reader.readAsDataURL(file);
+        });
+
+      /* ==========================================
+       CAMERA
+    ========================================== */
+
+      let cameraStream = null;
+
+      async function openCamera() {
+        try {
+          const video = document.getElementById("cameraVideo");
+          const cameraBox = document.getElementById("cameraBox");
+
+          cameraBox.style.display = "block";
+
+          cameraStream = await navigator.mediaDevices.getUserMedia({
+            video: true,
+            audio: false,
+          });
+
+          video.srcObject = cameraStream;
+        } catch (error) {
+          console.error(error);
+          alert(
+            "Camera open panna mudiyala. Camera permission Allow pannunga.",
+          );
+        }
+      }
+
+      /* ==========================================
+       DOWNLOAD CARD AS PNG
+    ========================================== */
+
+      async function downloadCard() {
+        if (!participant) {
+          alert("Please login first.");
+
+          return;
+        }
+
+        try {
+          const card = document.getElementById("clubCard");
+
+          const canvas = await html2canvas(card, {
+            scale: 3,
+
+            useCORS: true,
+
+            allowTaint: true,
+
+            backgroundColor: "#ffffff",
+
+            logging: false,
+          });
+
+          const link = document.createElement("a");
+
+          const registerNumber = participant.registerNumber || "mi-club";
+
+          link.download = `${registerNumber}-mi-club-card.png`;
+
+          link.href = canvas.toDataURL("image/png");
+
+          link.click();
+        } catch (error) {
+          console.error(error);
+
+          alert("Could not download the card. Please try again.");
+        }
+      }
+
+      /* ==========================================
+       START
+    ========================================== */
+
+      loadParticipant();
+
+      function takePhoto() {
+        const video = document.getElementById("cameraVideo");
+        const canvas = document.getElementById("cameraCanvas");
+
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+
+        const ctx = canvas.getContext("2d");
+
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        const photo = canvas.toDataURL("image/png");
+
+        setPhoto(photo);
+
+        closeCamera();
+      }
+
+      function closeCamera() {
+        const video = document.getElementById("cameraVideo");
+
+        if (cameraStream) {
+          cameraStream.getTracks().forEach((track) => track.stop());
+          cameraStream = null;
+        }
+
+        video.srcObject = null;
+
+        document.getElementById("cameraBox").style.display = "none";
+      }
+    </script>
+
+    <div
+      id="cameraBox"
+      style="display: none; text-align: center; margin-top: 15px"
+    >
+      <video
+        id="cameraVideo"
+        autoplay
+        playsinline
+        style="width: 350px; border-radius: 15px"
+      ></video>
+
+      <br /><br />
+
+      <button type="button" onclick="takePhoto()">📸 Capture Photo</button>
+
+      <button type="button" onclick="closeCamera()">✕ Close</button>
+
+      <canvas id="cameraCanvas" style="display: none"></canvas>
+    </div>
+  </body>
+</html>

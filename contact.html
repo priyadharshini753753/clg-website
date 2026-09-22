@@ -1,0 +1,907 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>MI CLUB - Contact</title>
+
+    <style>
+      /* ================= RESET ================= */
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* ================= BODY ================= */
+
+      body {
+        font-family: Arial, sans-serif;
+        color: #171717;
+
+        background:
+          radial-gradient(circle at 10% 20%, #d9faff, transparent 35%),
+          radial-gradient(circle at 90% 40%, #eee1ff, transparent 35%),
+          radial-gradient(circle at 50% 90%, #fff0f5, transparent 40%), #ffffff;
+
+        min-height: 100vh;
+      }
+
+      /* ================= NAVBAR ================= */
+
+      .navbar {
+        height: 75px;
+
+        display: flex;
+        align-items: center;
+
+        background: rgba(255, 255, 255, 0.75);
+
+        border-bottom: 1px solid #e5e5e5;
+
+        backdrop-filter: blur(12px);
+
+        position: sticky;
+        top: 0;
+
+        z-index: 1000;
+      }
+
+      .logo {
+        position: absolute;
+        left: 45px;
+
+        font-family: Georgia, serif;
+
+        font-size: 28px;
+        font-weight: bold;
+
+        color: #251d52;
+
+        text-decoration: none;
+      }
+
+      .nav-links {
+        margin: auto;
+
+        display: flex;
+
+        gap: 50px;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+
+        color: #171717;
+
+        font-size: 15px;
+
+        transition: 0.3s;
+      }
+
+      .nav-links a:hover {
+        color: #20184c;
+      }
+
+      /* =========================================
+   LOGO CIRCLE
+========================================= */
+
+      .logo-circle {
+        width: 330px;
+        height: 330px;
+
+        border-radius: 50%;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        background: white;
+
+        padding: 18px;
+
+        border: 8px solid #243b78;
+
+        box-shadow: 0 15px 35px rgba(36, 59, 120, 0.2);
+
+        transition: all 0.5s ease;
+      }
+
+      /* Logo */
+
+      .logo-circle img {
+        width: 100%;
+        height: 100%;
+
+        object-fit: contain;
+
+        border-radius: 50%;
+
+        transition: transform 0.5s ease;
+      }
+
+      /* =========================================
+   LOGO HOVER
+========================================= */
+
+      .about2-card:hover .logo-circle {
+        transform: rotate(3deg) scale(1.04);
+
+        box-shadow: 0 20px 45px rgba(36, 59, 120, 0.28);
+      }
+
+      .about2-card:hover .logo-circle img {
+        transform: scale(1.03);
+      }
+
+      /* ================= CONTACT HEADER ================= */
+
+      .contact-header {
+        text-align: center;
+
+        padding: 55px 20px 35px;
+      }
+
+      .contact-header h1 {
+        font-family: Georgia, serif;
+
+        font-size: 42px;
+
+        color: #f0eef7;
+
+        margin-bottom: 15px;
+      }
+
+      .contact-header p {
+        max-width: 650px;
+
+        margin: auto;
+
+        color: #e0d2d2;
+
+        line-height: 1.6;
+
+        font-size: 15px;
+      }
+
+      /* ================= CONTACT CARDS ================= */
+
+      .contact-cards {
+        max-width: 1000px;
+
+        margin: 15px auto 55px;
+
+        padding: 0 20px;
+
+        display: grid;
+
+        grid-template-columns: repeat(2, 1fr);
+
+        gap: 20px;
+      }
+
+      .contact-card {
+        background: rgba(255, 255, 255, 0.82);
+
+        border: 1px solid #e5e5e5;
+
+        border-radius: 12px;
+
+        padding: 30px 20px;
+
+        text-align: center;
+
+        box-shadow: 0 5px 18px rgba(0, 0, 0, 0.07);
+
+        transition: 0.3s;
+      }
+
+      .contact-card:hover {
+        transform: translateY(-3px);
+
+        box-shadow: 0 8px 22px rgba(86, 62, 217, 0.12);
+      }
+
+      .icon {
+        font-size: 25px;
+
+        color: #231861;
+
+        margin-bottom: 12px;
+      }
+
+      .contact-card h3 {
+        font-size: 16px;
+
+        margin-bottom: 10px;
+      }
+
+      .contact-card p {
+        font-size: 14px;
+
+        color: #666;
+
+        line-height: 1.5;
+      }
+
+      .contact-card a {
+        color: #666;
+
+        text-decoration: none;
+      }
+
+      .contact-card a:hover {
+        color: #1a124a;
+      }
+
+      /* ================= MESSAGE SECTION ================= */
+
+      .message-section {
+        max-width: 1000px;
+
+        margin: 0 auto;
+
+        padding: 0 20px 70px;
+
+        display: grid;
+
+        grid-template-columns: 1fr 1fr;
+
+        gap: 70px;
+
+        align-items: start;
+      }
+
+      /* ================= FEEDBACK ================= */
+
+      .feedback-box h2 {
+        font-family: Georgia, serif;
+
+        font-size: 32px;
+
+        margin-bottom: 25px;
+      }
+
+      .message-form {
+        display: flex;
+
+        flex-direction: column;
+
+        gap: 16px;
+      }
+
+      .message-form input,
+      .message-form textarea {
+        width: 100%;
+
+        padding: 14px 16px;
+
+        border: 1px solid #999;
+
+        border-radius: 8px;
+
+        outline: none;
+
+        font-family: Arial, sans-serif;
+
+        font-size: 14px;
+
+        background: rgba(255, 255, 255, 0.85);
+      }
+
+      .message-form input:focus,
+      .message-form textarea:focus {
+        border-color: #211855;
+      }
+
+      .message-form textarea {
+        height: 150px;
+
+        resize: vertical;
+      }
+
+      .send-btn {
+        width: fit-content;
+
+        padding: 13px 25px;
+
+        border: none;
+
+        border-radius: 7px;
+
+        background: #251a63;
+
+        color: white;
+
+        font-size: 14px;
+
+        cursor: pointer;
+
+        transition: 0.3s;
+      }
+
+      .send-btn:hover {
+        background: #231665;
+
+        transform: translateY(-2px);
+      }
+
+      /* ================= INFO BOX ================= */
+
+      .info-box h2 {
+        font-size: 25px;
+
+        margin-bottom: 8px;
+      }
+
+      .info-box p {
+        font-size: 17px;
+
+        line-height: 1.55;
+
+        color: #171717;
+
+        margin-bottom: 20px;
+      }
+
+      .info-box h3 {
+        font-size: 25px;
+
+        margin-bottom: 8px;
+      }
+
+      .quick-links {
+        display: flex;
+
+        flex-wrap: wrap;
+
+        gap: 8px;
+
+        margin-bottom: 18px;
+      }
+
+      .quick-links a {
+        color: #24186a;
+
+        font-size: 17px;
+
+        text-decoration: none;
+      }
+
+      .quick-links a:hover {
+        text-decoration: underline;
+      }
+
+      .info-box .contact-info {
+        margin-bottom: 5px;
+      }
+
+      /* ================= FOOTER ================= */
+
+      footer {
+        width: 100%;
+
+        margin: 0;
+
+        background: linear-gradient(
+          120deg,
+          #d895e6 0%,
+          #ee92da 50%,
+          #8a407b 100%
+        );
+
+        border-top: 1px solid rgba(231, 230, 238, 0.12);
+      }
+
+      .footer-container {
+        width: 100%;
+
+        max-width: 1100px;
+
+        margin: 0 auto;
+
+        padding: 50px 35px 40px;
+
+        display: grid;
+
+        grid-template-columns: 1.6fr 0.8fr 1.4fr;
+
+        gap: 70px;
+      }
+
+      /* FOOTER BRAND */
+
+      .footer-title {
+        font-family: Georgia, serif;
+
+        font-size: 32px;
+
+        font-weight: bold;
+
+        color: #e8eaef;
+
+        margin-bottom: 18px;
+      }
+
+      .footer-description {
+        max-width: 500px;
+
+        color: #dae3ef;
+
+        font-size: 14px;
+
+        line-height: 1.8;
+      }
+
+      /* FOOTER COLUMNS */
+
+      .footer-column h3 {
+        font-size: 17px;
+
+        color: #e8e7e7;
+
+        margin-bottom: 18px;
+      }
+
+      .footer-column a {
+        display: block;
+
+        width: fit-content;
+
+        margin-bottom: 10px;
+
+        color: #dde1e6;
+
+        text-decoration: none;
+
+        font-size: 14px;
+
+        transition: 0.3s;
+      }
+
+      .footer-column a:hover {
+        color: #f5f4ff;
+
+        transform: translateX(3px);
+      }
+
+      .footer-column p {
+        color: #dde2e9;
+
+        font-size: 14px;
+
+        line-height: 1.7;
+
+        margin-bottom: 7px;
+      }
+
+      /* COPYRIGHT */
+
+      .footer-bottom {
+        width: 100%;
+
+        max-width: 1100px;
+
+        margin: 0 auto;
+
+        padding: 20px 35px;
+
+        border-top: 1px solid rgba(86, 62, 217, 0.18);
+
+        text-align: center;
+
+        color: #647a98;
+
+        font-size: 13px;
+      }
+
+      /* ================= MOBILE ================= */
+
+      @media (max-width: 700px) {
+        .navbar {
+          height: 70px;
+        }
+
+        .logo {
+          left: 18px;
+
+          font-size: 21px;
+        }
+
+        .nav-links {
+          gap: 15px;
+
+          margin-left: 105px;
+        }
+
+        .nav-links a {
+          font-size: 11px;
+        }
+
+        .contact-header {
+          padding-top: 45px;
+        }
+
+        .contact-header h1 {
+          font-size: 36px;
+        }
+
+        .contact-cards {
+          grid-template-columns: 1fr;
+        }
+
+        .message-section {
+          grid-template-columns: 1fr;
+
+          gap: 40px;
+
+          padding-bottom: 50px;
+        }
+
+        .feedback-box h2 {
+          font-size: 30px;
+        }
+
+        .footer-container {
+          grid-template-columns: 1fr;
+
+          gap: 30px;
+
+          padding: 35px 20px 30px;
+        }
+
+        .footer-title {
+          font-size: 28px;
+        }
+
+        .footer-description {
+          max-width: 100%;
+        }
+
+        .footer-bottom {
+          padding: 16px 20px;
+        }
+      }
+
+      /* =========================================
+         FULL SCREEN VIDEO BACKGROUND
+      ========================================= */
+      .video-background {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -10;
+        overflow: hidden;
+        pointer-events: none;
+        background: #111;
+      }
+
+      .video-background video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        display: block;
+      }
+
+      .video-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(20, 85, 107, 0.281);
+        backdrop-filter: blur(1px);
+      }
+
+      /* Keep page sections transparent so the video remains visible */
+      .hero,
+      .rules-wrap,
+      .faculty-section {
+        background: transparent;
+      }
+
+      @media (max-width: 600px) {
+        .video-background video {
+          object-position: center;
+        }
+
+        .video-overlay {
+          background: rgba(255, 255, 255, 0.62);
+        }
+      }
+
+      /* =========================================
+   HEADER / NAVBAR
+========================================= */
+
+      .top-header {
+        width: 100%;
+        height: 85px;
+
+        display: flex;
+        align-items: center;
+
+        padding: 0 40px;
+
+        background: rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+
+      /* =========================================
+   NAVBAR CONTAINER
+========================================= */
+
+      .nav-container {
+        width: 100%;
+        max-width: 1500px;
+
+        margin: 0 auto;
+
+        display: flex;
+        align-items: center;
+
+        justify-content: space-between;
+      }
+
+      /* =========================================
+   LEFT SIDE - TWO LOGOS
+========================================= */
+
+      .navbar-logos {
+        display: flex;
+        align-items: center;
+
+        gap: 12px;
+
+        flex-shrink: 0;
+      }
+
+      .navbar-logo {
+        width: 65px;
+        height: 65px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        flex-shrink: 0;
+      }
+
+      .navbar-logo img {
+        width: 60px;
+        height: 60px;
+
+        object-fit: contain;
+        display: block;
+
+        transition: 0.3s ease;
+      }
+
+      .navbar-logo img:hover {
+        transform: scale(1.08);
+      }
+
+      /* =========================================
+   CENTER - NAVIGATION LINKS
+========================================= */
+
+      .nav-links {
+        flex: 1;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        gap: 55px;
+
+        margin: 0 35px;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+
+        color: #d4d6e1;
+
+        font-size: 18px;
+        font-weight: 500;
+
+        white-space: nowrap;
+
+        transition: 0.3s ease;
+      }
+
+      .nav-links a:hover {
+        color: #ffffff;
+
+        transform: translateY(-2px);
+      }
+
+      /* =========================================
+   RIGHT SIDE - SIGN IN
+========================================= */
+
+      .signin {
+        flex-shrink: 0;
+
+        text-decoration: none;
+
+        background: #35247b;
+        color: #ffffff;
+
+        padding: 12px 23px;
+
+        border-radius: 8px;
+
+        font-size: 15px;
+        font-weight: 500;
+
+        white-space: nowrap;
+
+        transition: 0.3s ease;
+      }
+
+      .signin:hover {
+        background: #1d70e5;
+        transform: translateY(-2px);
+
+        box-shadow: 0 6px 18px rgba(29, 112, 229, 0.25);
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- FULL SCREEN VIDEO BACKGROUND -->
+    <div class="video-background">
+      <video autoplay muted loop playsinline preload="auto">
+        <source src="images/cosmic.mp4" type="video/mp4" />
+      </video>
+      <div class="video-overlay"></div>
+    </div>
+
+    <header class="top-header">
+      <div class="nav-container">
+        <!-- LEFT : TWO LOGOS -->
+        <div class="navbar-logos">
+          <div class="navbar-logo">
+            <img src="images/mcwlogo.png" alt="College Logo" />
+          </div>
+
+          <div class="navbar-logo">
+            <img src="images/logo3.png" alt="MI Club Logo" />
+          </div>
+        </div>
+
+        <!-- CENTER : MENU -->
+        <nav class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="events.html">Events</a>
+          <a href="staff.html">Faculties</a>
+          <a href="council.html">Council members</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+
+        <!-- RIGHT : SIGN IN -->
+        <a href="signin.html" class="signin"> Sign In → </a>
+      </div>
+    </header>
+
+    <!-- ================= CONTACT HEADER ================= -->
+
+    <section class="contact-header">
+      <h1>Contact Us</h1>
+
+      <p>
+        Have questions regarding registration, events, or other information?
+        Reach out to the MI CLUB organizing team — we're happy to help!
+      </p>
+    </section>
+
+    <!-- ================= CONTACT CARDS ================= -->
+
+    <section class="contact-cards">
+      <!-- EMAIL -->
+
+      <div class="contact-card">
+        <div class="icon">✉</div>
+
+        <h3>Email</h3>
+
+        <p>
+          <a href="mailto:yourmail@gmail.com"> yourmail@gmail.com </a>
+        </p>
+      </div>
+
+      <!-- PHONE -->
+
+      <div class="contact-card">
+        <div class="icon">☎</div>
+
+        <h3>Phone</h3>
+
+        <p>
+          <a href="tel:+919000000000"> +91 90000 00000 </a>
+        </p>
+      </div>
+    </section>
+
+    <!-- ================= FEEDBACK + INFO ================= -->
+
+    <section class="message-section">
+      <!-- FEEDBACK -->
+
+      <div class="feedback-box">
+        <h2>Feedback</h2>
+
+        <form class="message-form">
+          <input type="text" placeholder="Your Name" required />
+
+          <input type="text" placeholder="Your Register Number" required />
+
+          <textarea placeholder="Your Message" required></textarea>
+
+          <button type="submit" class="send-btn">✈ Send Message</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- =====================================================
+                         FOOTER
+    ====================================================== -->
+
+    <footer>
+      <div class="footer-container">
+        <!-- FOOTER BRAND -->
+
+        <div class="footer-brand">
+          <div class="footer-title">MI CLUB</div>
+
+          <p class="footer-description">
+            MI CLUB is a student-focused platform of the Department of Computer
+            Science and Applications that encourages students to learn,
+            innovate, collaborate and showcase their talents.
+          </p>
+        </div>
+
+        <!-- QUICK LINKS -->
+
+        <div class="footer-column">
+          <h3>Quick Links</h3>
+
+          <a href="index.html"> Home </a>
+
+          <a href="about.html"> About </a>
+
+          <a href="events.html"> Events </a>
+
+          <a href="contact.html"> Contact </a>
+        </div>
+
+        <!-- CONTACT INFO -->
+
+        <div class="footer-column">
+          <h3>Contact Info</h3>
+
+          <p>Department of Computer Science and Applications</p>
+
+          <p>Mangayarkarasi College of Arts and Science for Women</p>
+
+          <p>Paravai, Madurai.</p>
+        </div>
+      </div>
+
+      <!-- COPYRIGHT -->
+
+      <div class="footer-bottom">© 2026 MI CLUB. All Rights Reserved.</div>
+    </footer>
+  </body>
+</html>

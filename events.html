@@ -1,0 +1,711 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Events | MI CLUB</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      body {
+        min-height: 100vh;
+        color: #202638;
+
+        background:
+          radial-gradient(
+            circle at 5% 20%,
+            rgba(77, 220, 235, 0.22),
+            transparent 30%
+          ),
+          radial-gradient(
+            circle at 95% 30%,
+            rgba(116, 144, 255, 0.2),
+            transparent 35%
+          ),
+          radial-gradient(
+            circle at 50% 80%,
+            rgba(255, 191, 180, 0.2),
+            transparent 35%
+          ),
+          #f4fbfc;
+      }
+
+      .college-header {
+        text-align: center;
+        padding: 22px 15px 16px;
+        background: rgba(255, 255, 255, 0.55);
+        border-bottom: 1px solid #ddd;
+      }
+
+      .college-header h1 {
+        font-family: Georgia, serif;
+        font-size: 24px;
+        color: #171b28;
+        text-transform: uppercase;
+      }
+
+      .college-header p {
+        margin-top: 6px;
+        font-size: 14px;
+        color: #555;
+      }
+
+      /* =========================================
+   HEADER / NAVBAR
+========================================= */
+
+      .top-header {
+        width: 100%;
+        height: 85px;
+
+        display: flex;
+        align-items: center;
+
+        padding: 0 40px;
+
+        background: rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+
+      /* =========================================
+   NAVBAR CONTAINER
+========================================= */
+
+      .nav-container {
+        width: 100%;
+        max-width: 1500px;
+
+        margin: 0 auto;
+
+        display: flex;
+        align-items: center;
+
+        justify-content: space-between;
+      }
+
+      /* =========================================
+   LEFT SIDE - TWO LOGOS
+========================================= */
+
+      .navbar-logos {
+        display: flex;
+        align-items: center;
+
+        gap: 12px;
+
+        flex-shrink: 0;
+      }
+
+      .navbar-logo {
+        width: 65px;
+        height: 65px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        flex-shrink: 0;
+      }
+
+      .navbar-logo img {
+        width: 60px;
+        height: 60px;
+
+        object-fit: contain;
+        display: block;
+
+        transition: 0.3s ease;
+      }
+
+      .navbar-logo img:hover {
+        transform: scale(1.08);
+      }
+
+      /* =========================================
+   CENTER - NAVIGATION LINKS
+========================================= */
+
+      .nav-links {
+        flex: 1;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        gap: 55px;
+
+        margin: 0 35px;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+
+        color: #d4d6e1;
+
+        font-size: 18px;
+        font-weight: 500;
+
+        white-space: nowrap;
+
+        transition: 0.3s ease;
+      }
+
+      .nav-links a:hover {
+        color: #ffffff;
+
+        transform: translateY(-2px);
+      }
+
+      /* =========================================
+   RIGHT SIDE - SIGN IN
+========================================= */
+
+      .signin {
+        flex-shrink: 0;
+
+        text-decoration: none;
+
+        background: #35247b;
+        color: #ffffff;
+
+        padding: 12px 23px;
+
+        border-radius: 8px;
+
+        font-size: 15px;
+        font-weight: 500;
+
+        white-space: nowrap;
+
+        transition: 0.3s ease;
+      }
+
+      .signin:hover {
+        background: #1d70e5;
+        transform: translateY(-2px);
+
+        box-shadow: 0 6px 18px rgba(29, 112, 229, 0.25);
+      }
+
+      /* =========================================
+   LOGO CIRCLE
+========================================= */
+
+      .logo-circle {
+        width: 330px;
+        height: 330px;
+
+        border-radius: 50%;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        background: white;
+
+        padding: 18px;
+
+        border: 8px solid #243b78;
+
+        box-shadow: 0 15px 35px rgba(36, 59, 120, 0.2);
+
+        transition: all 0.5s ease;
+      }
+
+      /* Logo */
+
+      .logo-circle img {
+        width: 100%;
+        height: 100%;
+
+        object-fit: contain;
+
+        border-radius: 50%;
+
+        transition: transform 0.5s ease;
+      }
+
+      /* =========================================
+   LOGO HOVER
+========================================= */
+
+      .about2-card:hover .logo-circle {
+        transform: rotate(3deg) scale(1.04);
+
+        box-shadow: 0 20px 45px rgba(36, 59, 120, 0.28);
+      }
+
+      .about2-card:hover .logo-circle img {
+        transform: scale(1.03);
+      }
+
+      .events-section {
+        padding: 22px 6% 80px;
+      }
+
+      .events-title {
+        text-align: center;
+        font-size: 30px;
+        color: #ebeaf1;
+        margin-bottom: 35px;
+      }
+
+      .events-container {
+        max-width: 1000px;
+        margin: auto;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 28px;
+      }
+
+      .event-card {
+        background: white;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+      }
+
+      .event-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      }
+
+      /* =========================
+           EVENT BANNER (IMAGE)
+        ========================= */
+
+      .event-banner {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        overflow: hidden;
+        position: relative;
+      }
+
+      /* =========================================
+         PREMIUM IMAGE 1 → IMAGE 2 TRANSITION
+      ========================================= */
+
+      .event-banner {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .event-banner img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition:
+          opacity 0.8s ease,
+          transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      .event-img-one {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      .event-img-two {
+        opacity: 0;
+        transform: scale(1.12);
+      }
+
+      .event-card:hover .event-img-one {
+        opacity: 0;
+        transform: scale(1.08);
+      }
+
+      .event-card:hover .event-img-two {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      .quiz-banner {
+        background: linear-gradient(135deg, #3867d6, #4b8cf5);
+      }
+
+      .debug-banner {
+        background: linear-gradient(135deg, #0099cc, #16b5df);
+      }
+
+      .paper-banner {
+        background: linear-gradient(135deg, #ee8b70, #f5a28a);
+      }
+
+      .code-banner {
+        background: linear-gradient(135deg, #6c45d9, #8b65ed);
+      }
+
+      .web-banner {
+        background: linear-gradient(135deg, #10a77a, #21c58e);
+      }
+
+      .event-content {
+        padding: 20px;
+        background: #ffffff;
+        position: relative;
+        z-index: 1;
+      }
+
+      .event-content h2 {
+        font-size: 30px;
+        color: #161a23;
+        margin-bottom: 16px;
+      }
+
+      .event-info {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 9px;
+        font-size: 20px;
+        color: #000000;
+      }
+
+      .event-info .icon {
+        color: #251c58;
+        font-size: 14px;
+        width: 16px;
+      }
+
+      .details-btn {
+        margin-top: 12px;
+        padding: 8px 18px;
+        border: none;
+        border-radius: 20px;
+        background: #241c55;
+        color: white;
+        font-size: 12px;
+        cursor: pointer;
+      }
+
+      .details-btn:hover {
+        background: #20184b;
+      }
+
+      footer {
+        margin-top: 30px;
+        padding: 30px 15px;
+        text-align: center;
+        background: rgba(91, 76, 210, 0.12);
+        border-top: 1px solid #ddd;
+      }
+
+      footer h2 {
+        font-family: Georgia, serif;
+        font-size: 25px;
+        margin-bottom: 8px;
+      }
+
+      footer p {
+        font-size: 12px;
+        color: #666;
+        margin-top: 5px;
+      }
+
+      @media (max-width: 700px) {
+        .college-header h1 {
+          font-size: 17px;
+          line-height: 1.4;
+        }
+
+        .college-header p {
+          font-size: 13px;
+        }
+
+        .navbar {
+          height: 58px;
+        }
+
+        .nav-links {
+          gap: 22px;
+        }
+
+        .nav-links a {
+          font-size: 12px;
+        }
+
+        .events-section {
+          padding: 25px 18px 70px;
+        }
+
+        .events-title {
+          font-size: 27px;
+          margin-bottom: 30px;
+        }
+
+        .events-container {
+          grid-template-columns: 1fr;
+          max-width: 380px;
+          gap: 22px;
+        }
+
+        .event-content {
+          padding: 20px;
+        }
+      }
+
+      /* =========================================
+         FULL SCREEN VIDEO BACKGROUND
+      ========================================= */
+      .video-background {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -10;
+        overflow: hidden;
+        pointer-events: none;
+        background: #111;
+      }
+
+      .video-background video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        display: block;
+      }
+
+      .video-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(20, 85, 107, 0.281);
+        backdrop-filter: blur(1px);
+      }
+
+      /* Keep page sections transparent so the video remains visible */
+      .hero,
+      .rules-wrap,
+      .faculty-section {
+        background: transparent;
+      }
+
+      @media (max-width: 600px) {
+        .video-background video {
+          object-position: center;
+        }
+
+        .video-overlay {
+          background: rgba(255, 255, 255, 0.62);
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- FULL SCREEN VIDEO BACKGROUND -->
+    <div class="video-background">
+      <video autoplay muted loop playsinline preload="auto">
+        <source src="images/cosmic.mp4" type="video/mp4" />
+      </video>
+      <div class="video-overlay"></div>
+    </div>
+
+    <header class="top-header">
+      <div class="nav-container">
+        <!-- LEFT : TWO LOGOS -->
+        <div class="navbar-logos">
+          <div class="navbar-logo">
+            <img src="images/mcwlogo.png" alt="College Logo" />
+          </div>
+
+          <div class="navbar-logo">
+            <img src="images/logo3.png" alt="MI Club Logo" />
+          </div>
+        </div>
+
+        <!-- CENTER : MENU -->
+        <nav class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="events.html">Events</a>
+          <a href="staff.html">Faculties</a>
+          <a href="council.html">Council members</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+
+        <!-- RIGHT : SIGN IN -->
+        <a href="signin.html" class="signin"> Sign In → </a>
+      </div>
+    </header>
+
+    <section class="events-section">
+      <h1 class="events-title">Events</h1>
+
+      <div class="events-container">
+        <!-- 1. QUIZ -->
+        <div class="event-card">
+          <div class="event-banner quiz-banner">
+            <img
+              src="images/Quiz.png.png"
+              class="event-img-one"
+              alt="Quiz Event"
+            />
+            <img src="images/quiz.png" class="event-img-two" alt="Quiz Event" />
+          </div>
+          <div class="event-content">
+            <h2>𝑸𝑼𝑰𝒁</h2>
+            <div class="event-info">
+              <span class="icon">⌖</span><span>Seminar Hall</span>
+            </div>
+            <div class="event-info">
+              <span class="icon">◷</span><span>10:30 AM - 12:30 PM</span>
+            </div>
+            <div class="event-info">
+              <span class="icon">♧</span><span>Team: Max 2 Participants</span>
+            </div>
+            <a href="Quiz.html" class="details-btn">Details</a>
+          </div>
+        </div>
+
+        <!-- 2. DEBUGGING -->
+        <div class="event-card">
+          <div class="event-banner debug-banner">
+            <img
+              src="images/Debugging.png.png"
+              class="event-img-one"
+              alt="Debugging Event"
+            />
+            <img
+              src="images/debug.png"
+              class="event-img-two"
+              alt="Debugging Event"
+            />
+          </div>
+          <div class="event-content">
+            <h2>𝑫𝑬𝑩𝑼𝑮𝑮𝑰𝑵𝑮</h2>
+            <div class="event-info">
+              <span class="icon">⌖</span><span>Computer Lab</span>
+            </div>
+            <div class="event-info">
+              <span class="icon">◷</span><span>10:30 AM - 12:30 PM</span>
+            </div>
+            <div class="event-info">
+              <span class="icon">♧</span><span>Team: Max 2 Participants</span>
+            </div>
+            <a href="debugging.html" class="details-btn">Details</a>
+          </div>
+        </div>
+
+        <!-- 3. PAPER PRESENTATION -->
+        <div class="event-card">
+          <div class="event-banner paper-banner">
+            <img
+              src="images/Paper Presentation.png.png"
+              class="event-img-one"
+              alt="Paper Presentation Event"
+            />
+            <img
+              src="images/ppt.png"
+              class="event-img-two"
+              alt="Paper Presentation Event"
+            />
+          </div>
+          <div class="event-content">
+            <h2>𝑷𝑨𝑷𝑬𝑹 𝑷𝑹𝑬𝑺𝑬𝑵𝑻𝑨𝑻𝑰𝑶𝑵</h2>
+            <div class="event-info">
+              <span class="icon">⌖</span><span>Auditorium</span>
+            </div>
+            <div class="event-info">
+              <span class="icon">◷</span><span>01:00 PM - 03:00 PM</span>
+            </div>
+            <div class="event-info">
+              <span class="icon">♧</span><span>Team: Max 2 Participants</span>
+            </div>
+            <a href="ppt.html" class="details-btn">Details</a>
+          </div>
+        </div>
+
+        <!-- 4. CODE RELAY -->
+        <div class="event-card">
+          <div class="event-banner code-banner">
+            <img
+              src="images/Code Relay.png.png"
+              class="event-img-one"
+              alt="Code Relay Event"
+            />
+            <img
+              src="images/cd.png"
+              class="event-img-two"
+              alt="Code Relay Event"
+            />
+          </div>
+          <div class="event-content">
+            <h2>𝑪𝑶𝑫𝑬 𝑹𝑬𝑳𝑨𝒀</h2>
+            <div class="event-info">
+              <span class="icon">⌖</span><span>Computer Lab</span>
+            </div>
+            <div class="event-info">
+              <span class="icon">◷</span><span>01:00 PM - 03:00 PM</span>
+            </div>
+            <div class="event-info">
+              <span class="icon">♧</span><span>Team: Max 3 Participants</span>
+            </div>
+            <a href="code relay.html" class="details-btn">Details</a>
+          </div>
+        </div>
+
+        <!-- 5. WEB DEVELOPMENT -->
+        <div class="event-card">
+          <div class="event-banner web-banner">
+            <img
+              src="images/web&logo designing.png.png"
+              class="event-img-one"
+              alt="Web Development and Logo Designing Event"
+            />
+            <img
+              src="images/web.png"
+              class="event-img-two"
+              alt="Web Development and Logo Designing Event"
+            />
+          </div>
+          <div class="event-content">
+            <h2>𝑾𝒆𝒃 𝑫𝒆𝒗𝒆𝒍𝒐𝒑𝒎𝒆𝒏𝒕 & 𝑳𝒐𝒈𝒐 𝑫𝒆𝒔𝒊𝒈𝒏𝒊𝒏𝒈</h2>
+            <div class="event-info">
+              <span class="icon">⌖</span><span>Computer Lab</span>
+            </div>
+            <div class="event-info">
+              <span class="icon">◷</span><span>10:30 AM - 12:30 PM</span>
+            </div>
+            <div class="event-info">
+              <span class="icon">♧</span><span>Team: Max 2 Participants</span>
+            </div>
+            <a href="webdesign.html" class="details-btn">Details</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <h2>MI CLUB</h2>
+      <p>Mangayarkarasi College of Arts and Science for Women</p>
+      <p>Paravai, Madurai</p>
+    </footer>
+  </body>
+</html>
