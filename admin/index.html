@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>MI CLUB Admin</title>
+    <link rel="stylesheet" href="admin.css" />
+  </head>
+  <body>
+    <div id="login" class="login">
+      <div class="loginbox">
+        <img src="../images/logo3.png" />
+        <h1>MI CLUB</h1>
+        <p>Admin Portal</p>
+        <form id="loginForm">
+          <input id="u" placeholder="Username" required /><input
+            id="p"
+            type="password"
+            placeholder="Password"
+            required
+          /><button>Admin Login</button><small id="lm"></small>
+        </form>
+      </div>
+    </div>
+    <div id="app" class="hidden">
+      <aside>
+        <div class="brand">
+          <img src="../images/logo3.png" /><b
+            >MI CLUB<br /><small>ADMIN PANEL</small></b
+          >
+        </div>
+        <button data-s="dashboard">📊 Dashboard</button
+        ><button data-s="staff">👨‍🏫 Faculties</button
+        ><button data-s="council">👥 Council Members</button
+        ><button data-s="events">🎯 Events</button
+        ><button data-s="feedback">💬 Queries & Feedback</button
+        ><button data-s="students">🎓 Students</button
+        ><button id="logout">🚪 Logout</button>
+      </aside>
+      <main>
+        <header>
+          <div>
+            <h2 id="title">Dashboard</h2>
+            <span>MI CLUB Administration</span>
+          </div>
+          <b>ADMIN</b>
+        </header>
+        <div id="content"></div>
+      </main>
+    </div>
+    <script src="admin.js"></script>
+  </body>
+</html>

@@ -1,0 +1,517 @@
+/* =========================
+   GLOBAL
+========================= */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f5f7fb;
+  color: #182033;
+}
+
+.hidden {
+  display: none !important;
+}
+
+
+/* =========================
+   LOGIN PAGE
+========================= */
+
+.login {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(
+    135deg,
+    #17123d,
+    #35247b,
+    #1d70e5
+  );
+}
+
+.loginbox {
+  background: #fff;
+  width: 360px;
+  max-width: 90%;
+  padding: 35px;
+  border-radius: 22px;
+  text-align: center;
+  box-shadow: 0 25px 70px #0005;
+}
+
+.loginbox img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+}
+
+.loginbox h1 {
+  font-family: Georgia, serif;
+  letter-spacing: 3px;
+}
+
+.loginbox form {
+  display: grid;
+  gap: 12px;
+}
+
+.loginbox input,
+.form input,
+.form textarea,
+.form select {
+  padding: 12px;
+  border: 1px solid #d7dce7;
+  border-radius: 9px;
+  font: inherit;
+}
+
+.loginbox button,
+.add {
+  border: 0;
+  background: #35247b;
+  color: #fff;
+  padding: 12px;
+  border-radius: 9px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.loginbox small {
+  color: #c22;
+}
+
+
+/* =========================
+   ADMIN APP
+========================= */
+
+#app {
+  min-height: 100vh;
+  display: flex;
+}
+
+
+/* =========================
+   SIDEBAR
+========================= */
+
+aside {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: 245px;
+  background: #17132f;
+  color: #fff;
+  padding: 20px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px 22px;
+  border-bottom: 1px solid #ffffff20;
+  margin-bottom: 8px;
+}
+
+.brand img {
+  width: 45px;
+  height: 45px;
+  object-fit: contain;
+}
+
+.brand small {
+  font-size: 9px;
+  color: #aaa;
+  letter-spacing: 1px;
+}
+
+aside button {
+  border: 0;
+  background: transparent;
+  color: #ddd;
+  text-align: left;
+  padding: 13px;
+  border-radius: 9px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+aside button:hover,
+aside button.active {
+  background: #ffffff18;
+  color: #fff;
+}
+
+#logout {
+  margin-top: auto;
+  color: #ff9da7;
+}
+
+
+/* =========================
+   MAIN CONTENT
+========================= */
+
+main {
+  margin-left: 245px;
+  width: calc(100% - 245px);
+  padding: 28px;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+header h2 {
+  margin: 0 0 5px;
+  font-family: Georgia, serif;
+}
+
+header span {
+  color: #788090;
+  font-size: 13px;
+}
+
+header > b {
+  background: #e9e5ff;
+  color: #35247b;
+  padding: 7px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+}
+
+
+/* =========================
+   STATISTICS
+========================= */
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.stat,
+.panel {
+  background: #fff;
+  border-radius: 17px;
+  padding: 21px;
+  box-shadow: 0 8px 25px #18203310;
+}
+
+.stat span {
+  color: #7b8290;
+  font-size: 13px;
+}
+
+.stat strong {
+  display: block;
+  font-size: 30px;
+  margin-top: 8px;
+}
+
+
+/* =========================
+   PANELS
+========================= */
+
+.panel {
+  margin-bottom: 20px;
+}
+
+.panelhead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.panelhead h3 {
+  margin: 0;
+}
+
+
+/* =========================
+   CARDS
+========================= */
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.card {
+  border: 1px solid #e8ebf1;
+  border-radius: 17px;
+  overflow: hidden;
+}
+
+.card img {
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+  background: #eef1f7;
+}
+
+.cardbody {
+  padding: 15px;
+}
+
+.card h3 {
+  margin: 0 0 5px;
+  font-family: Georgia, serif;
+}
+
+.card h4 {
+  margin: 0 0 10px;
+  color: #7044d8;
+}
+
+.card p {
+  font-size: 13px;
+  color: #6e7585;
+  line-height: 1.5;
+}
+
+
+/* =========================
+   ACTION BUTTONS
+========================= */
+
+.actions {
+  display: flex;
+  gap: 7px;
+}
+
+.btn {
+  border: 0;
+  padding: 8px 11px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.edit {
+  background: #edf3ff;
+  color: #315bc9;
+}
+
+.del {
+  background: #fff0f1;
+  color: #d62839;
+}
+
+
+/* =========================
+   TABLE
+========================= */
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 11px;
+  border-bottom: 1px solid #edf0f4;
+  text-align: left;
+  font-size: 13px;
+  vertical-align: top;
+}
+
+.table th {
+  color: #697181;
+}
+
+
+/* =========================
+   MODAL
+========================= */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: #11182799;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  z-index: 20;
+}
+
+.modalbox {
+  background: #fff;
+  width: min(620px, 100%);
+  max-height: 90vh;
+  overflow: auto;
+  border-radius: 18px;
+  padding: 24px;
+}
+
+.modalhead {
+  display: flex;
+  justify-content: space-between;
+}
+
+.close {
+  border: 0;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+
+/* =========================
+   FORMS
+========================= */
+
+.form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 13px;
+  margin-top: 15px;
+}
+
+.form label {
+  font-size: 12px;
+  font-weight: bold;
+  color: #555;
+}
+
+.form label > * {
+  display: block;
+  width: 100%;
+  margin-top: 5px;
+}
+
+.full {
+  grid-column: 1 / -1;
+}
+
+.formactions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 9px;
+}
+
+.cancel {
+  border: 0;
+  padding: 11px 16px;
+  border-radius: 9px;
+}
+
+
+/* =========================
+   ANALYTICS CHART
+========================= */
+
+.chart {
+  height: 230px;
+  display: flex;
+  align-items: end;
+  gap: 12px;
+}
+
+.barwrap {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: center;
+  gap: 5px;
+}
+
+.bar {
+  width: 65%;
+  max-width: 45px;
+  background: #5d46d8;
+  border-radius: 6px 6px 0 0;
+  min-height: 3px;
+}
+
+.barwrap small {
+  font-size: 10px;
+  color: #777;
+}
+
+
+/* =========================
+   RESPONSIVE - TABLET
+========================= */
+
+@media (max-width: 1000px) {
+
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+}
+
+
+/* =========================
+   RESPONSIVE - MOBILE
+========================= */
+
+@media (max-width: 700px) {
+
+  aside {
+    width: 70px;
+  }
+
+  .brand b,
+  aside button {
+    font-size: 0;
+  }
+
+  .brand {
+    justify-content: center;
+  }
+
+  main {
+    margin-left: 70px;
+    width: calc(100% - 70px);
+    padding: 15px;
+  }
+
+  .stats,
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  .form {
+    grid-template-columns: 1fr;
+  }
+
+  .full {
+    grid-column: auto;
+  }
+
+  .formactions {
+    grid-column: auto;
+  }
+
+}
