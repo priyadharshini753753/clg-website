@@ -33,7 +33,7 @@ async function api(path, opt = {}) {
 
   if (r.status === 401) {
     logout();
-    throw Error(d.message);
+    throw Error(d.message || "Admin login required");
   }
 
   if (!r.ok) {
@@ -141,18 +141,23 @@ async function load(s) {
   }[s];
 
   try {
-    await {
+    const functions = {
       dashboard,
       staff,
       council,
       events,
       feedback,
       students
-    }[s]();
+    };
+
+    await functions[s]();
 
   } catch (e) {
-    $("content").innerHTML =
-      `<div class="panel">❌ ${esc(e.message)}</div>`;
+    $("content").innerHTML = `
+      <div class="panel">
+        ❌ ${esc(e.message)}
+      </div>
+    `;
   }
 }
 
@@ -270,7 +275,9 @@ function modal(title, body, save) {
 
   document.body.appendChild(m);
 
-  m.querySelector(".close").onclick = () => m.remove();
+  m.querySelector(".close").onclick = () => {
+    m.remove();
+  };
 
   m.querySelector("form").onsubmit = async (e) => {
 
@@ -295,7 +302,9 @@ function modal(title, body, save) {
     }
   };
 
-  m.querySelector(".cancel").onclick = () => m.remove();
+  m.querySelector(".cancel").onclick = () => {
+    m.remove();
+  };
 }
 
 
@@ -331,10 +340,10 @@ async function staff() {
           <div class="card">
 
             <img
-              src="../${esc(
+              src="/${esc(
                 r.image || "images/logo3.png"
               )}"
-              onerror="this.src='../images/logo3.png'"
+              onerror="this.src='/images/logo3.png'"
             >
 
             <div class="cardbody">
@@ -358,7 +367,7 @@ async function staff() {
 
                 <button
                   class="btn del"
-                  onclick="del('staff',${r.id})"
+                  onclick="del('staff', ${r.id})"
                 >
                   Delete
                 </button>
@@ -388,13 +397,16 @@ function staffForm(r) {
   r = r || {};
 
   modal(
+
     r.id ? "Edit Staff" : "Add Staff",
 
     `
+
       <form class="form">
 
         <label>
           Name
+
           <input
             name="name"
             value="${esc(r.name)}"
@@ -402,8 +414,10 @@ function staffForm(r) {
           >
         </label>
 
+
         <label>
           Designation
+
           <input
             name="designation"
             value="${esc(r.designation)}"
@@ -411,24 +425,31 @@ function staffForm(r) {
           >
         </label>
 
+
         <label class="full">
           Qualification
+
           <input
             name="qualification"
             value="${esc(r.qualification)}"
           >
         </label>
 
+
         <label class="full">
           Description
+
           <textarea
             name="description"
             rows="4"
           >${esc(r.description)}</textarea>
+
         </label>
+
 
         <label class="full">
           Photo Path
+
           <input
             name="image"
             value="${esc(
@@ -436,7 +457,9 @@ function staffForm(r) {
             )}"
             required
           >
+
         </label>
+
 
         <div class="formactions">
 
@@ -454,6 +477,7 @@ function staffForm(r) {
         </div>
 
       </form>
+
     `,
 
     (d) =>
@@ -495,6 +519,7 @@ async function council() {
 
       </div>
 
+
       <div class="cards">
 
         ${rows.map((r) => `
@@ -502,10 +527,10 @@ async function council() {
           <div class="card">
 
             <img
-              src="../${esc(
+              src="/${esc(
                 r.image || "images/logo3.png"
               )}"
-              onerror="this.src='../images/logo3.png'"
+              onerror="this.src='/images/logo3.png'"
             >
 
             <div class="cardbody">
@@ -515,7 +540,7 @@ async function council() {
               <h4>${esc(r.designation)}</h4>
 
               <p>
-                ${esc(r.description)}
+                ${esc(r.description || "")}
               </p>
 
               <div class="actions">
@@ -529,7 +554,7 @@ async function council() {
 
                 <button
                   class="btn del"
-                  onclick="del('council',${r.id})"
+                  onclick="del('council', ${r.id})"
                 >
                   Delete
                 </button>
@@ -559,15 +584,18 @@ function councilForm(r) {
   r = r || {};
 
   modal(
+
     r.id
       ? "Edit Council Member"
       : "Add Council Member",
 
     `
+
       <form class="form">
 
         <label>
           Name
+
           <input
             name="name"
             value="${esc(r.name)}"
@@ -575,8 +603,10 @@ function councilForm(r) {
           >
         </label>
 
+
         <label>
           Designation
+
           <input
             name="designation"
             value="${esc(r.designation)}"
@@ -584,16 +614,20 @@ function councilForm(r) {
           >
         </label>
 
+
         <label class="full">
           Description
+
           <textarea
             name="description"
             rows="4"
           >${esc(r.description)}</textarea>
         </label>
 
+
         <label class="full">
           Photo Path
+
           <input
             name="image"
             value="${esc(
@@ -602,6 +636,7 @@ function councilForm(r) {
             required
           >
         </label>
+
 
         <div class="formactions">
 
@@ -619,6 +654,7 @@ function councilForm(r) {
         </div>
 
       </form>
+
     `,
 
     (d) =>
@@ -660,6 +696,7 @@ async function events() {
 
       </div>
 
+
       <div class="cards">
 
         ${rows.map((r) => `
@@ -667,10 +704,10 @@ async function events() {
           <div class="card">
 
             <img
-              src="../${esc(
+              src="/${esc(
                 r.image || "images/logo3.png"
               )}"
-              onerror="this.src='../images/logo3.png'"
+              onerror="this.src='/images/logo3.png'"
             >
 
             <div class="cardbody">
@@ -681,16 +718,19 @@ async function events() {
 
                 <b>Venue:</b>
                 ${esc(r.venue || "-")}
+
                 <br>
 
                 <b>Time:</b>
                 ${esc(r.event_time || "-")}
+
                 <br>
 
                 <b>Team:</b>
                 ${esc(r.team_info || "-")}
 
               </p>
+
 
               <div class="actions">
 
@@ -703,7 +743,7 @@ async function events() {
 
                 <button
                   class="btn del"
-                  onclick="del('events',${r.id})"
+                  onclick="del('events', ${r.id})"
                 >
                   Delete
                 </button>
@@ -733,13 +773,16 @@ function eventForm(r) {
   r = r || {};
 
   modal(
+
     r.id ? "Edit Event" : "Add Event",
 
     `
+
       <form class="form">
 
         <label>
           Event Name
+
           <input
             name="name"
             value="${esc(r.name)}"
@@ -747,8 +790,10 @@ function eventForm(r) {
           >
         </label>
 
+
         <label>
           Date
+
           <input
             type="date"
             name="event_date"
@@ -756,8 +801,10 @@ function eventForm(r) {
           >
         </label>
 
+
         <label>
           Venue
+
           <input
             name="venue"
             value="${esc(r.venue)}"
@@ -765,40 +812,50 @@ function eventForm(r) {
           >
         </label>
 
+
         <label>
           Time
+
           <input
             name="event_time"
             value="${esc(r.event_time)}"
           >
         </label>
 
+
         <label>
           Team Info
+
           <input
             name="team_info"
             value="${esc(r.team_info)}"
           >
         </label>
 
+
         <label>
           Details Page
+
           <input
             name="details_url"
             value="${esc(r.details_url)}"
           >
         </label>
 
+
         <label class="full">
           Description
+
           <textarea
             name="description"
             rows="4"
           >${esc(r.description)}</textarea>
         </label>
 
+
         <label class="full">
           Image Path
+
           <input
             name="image"
             value="${esc(
@@ -807,6 +864,7 @@ function eventForm(r) {
             required
           >
         </label>
+
 
         <div class="formactions">
 
@@ -824,6 +882,7 @@ function eventForm(r) {
         </div>
 
       </form>
+
     `,
 
     (d) =>
@@ -856,6 +915,7 @@ async function feedback() {
         <h3>Queries & Feedback</h3>
       </div>
 
+
       <table class="table">
 
         <tr>
@@ -865,6 +925,7 @@ async function feedback() {
           <th>Date</th>
           <th>Action</th>
         </tr>
+
 
         ${rows.map((r) => `
 
@@ -890,7 +951,7 @@ async function feedback() {
 
               <button
                 class="btn del"
-                onclick="del('feedback',${r.id})"
+                onclick="del('feedback', ${r.id})"
               >
                 Delete
               </button>
@@ -931,6 +992,7 @@ async function students() {
 
       </div>
 
+
       <table class="table">
 
         <tr>
@@ -940,6 +1002,7 @@ async function students() {
           <th>Domain</th>
           <th>Date</th>
         </tr>
+
 
         ${rows.map((r) => `
 
@@ -991,14 +1054,22 @@ async function del(type, id) {
     return;
   }
 
-  await api(
-    "/admin/" + type + "/" + id,
-    {
-      method: "DELETE"
-    }
-  );
+  try {
 
-  load(section);
+    await api(
+      "/admin/" + type + "/" + id,
+      {
+        method: "DELETE"
+      }
+    );
+
+    load(section);
+
+  } catch (e) {
+
+    alert("❌ " + e.message);
+
+  }
 }
 
 
