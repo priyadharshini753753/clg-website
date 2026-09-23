@@ -130,47 +130,127 @@
       <div id="msg" class="msg"></div>
     </div>
     <script>
-      const API = "http://localhost:5000",
-        p = JSON.parse(localStorage.getItem("miClubParticipant") || "null");
+      const API = "http://localhost:5000";
+
+      const p = JSON.parse(localStorage.getItem("miClubParticipant") || "null");
+
+      // ==============================
+      // CHECK LOGIN
+      // ==============================
       if (!p) {
         alert("Please login first.");
         location.href = "signin.html";
       } else {
-        ["name", "reg", "batch", "domain"].forEach(
-          (id, i) =>
-            (document.getElementById(id).value = [
-              p.name,
-              p.registerNumber,
-              p.batch,
-              p.domain,
-            ][i]),
-        );
+        document.getElementById("name").value = p.name || "";
+        document.getElementById("reg").value = p.registerNumber || "";
+        document.getElementById("batch").value = p.batch || "";
+        document.getElementById("domain").value = p.domain || "";
       }
-      document.getElementById("f").onsubmit = async (e) => {
-        e.preventDefault();
-        let body = {
-          qrToken: p.qrToken,
-          eventType: type.value,
-          venue: venue.value.trim(),
-          participantEvent: event.value,
-          status: status.value,
-          eventDate: date.value,
-        };
-        try {
-          let r = await fetch(API + "/event-enroll", {
+
+      // ==============================
+      // EVENT ENROLLMENT
+      // ==============================
+      document
+        .getElementById("f")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const eventType = document.getElementById("type").value.trim();
+
+          const venue = document.getElementById("venue").value.trim();
+
+          const participantEvent = document
+            .getElementById("event")
+            .value.trim();
+
+          const status = document.getElementById("status").value.trim();
+
+          const eventDate = document.getElementById("date").value.trim();
+
+          // ==============================
+          // VALIDATION
+          // ==============================
+          if (
+            !p ||
+            !p.qrToken ||
+            !eventType ||
+            !venue ||
+            !participantEvent ||
+            !status ||
+            !eventDate
+          ) {
+            const msg = document.getElementById("msg");
+
+            msg.textContent = "❌ All event details are required";
+            msg.style.display = "block";
+            msg.style.background = "#fff0f0";
+
+            return;
+          }
+
+          // ==============================
+          // REQUEST BODY
+          // ==============================
+          const body = {
+            qrToken: p.qrToken,
+            eventType: eventType,
+            venue: venue,
+            participantEvent: participantEvent,
+            status: status,
+            eventDate: eventDate,
+          };
+
+          console.log("Sending event data:", body);
+
+          try {
+            const response = await fetch(API + "/event-enroll", {
               method: "POST",
-              headers: { "Content-Type": "application/json" },
+              headers: {
+                "Content-Type": "application/json",
+              },
               body: JSON.stringify(body),
-            }),
-            d = await r.json();
-          msg.textContent = (r.ok ? "✅ " : "❌ ") + (d.message || "Failed");
-          msg.style.display = "block";
-          msg.style.background = r.ok ? "#e8f8ee" : "#fff0f0";
-          if (r.ok) e.target.reset();
-        } catch (x) {
-          alert("❌ Cannot connect to server.");
-        }
-      };
+            });
+
+            const data = await response.json();
+
+            const msg = document.getElementById("msg");
+
+            if (!response.ok) {
+              msg.textContent =
+                "❌ " + (data.message || "Event enrollment failed");
+
+              msg.style.display = "block";
+              msg.style.background = "#fff0f0";
+
+              return;
+            }
+
+            // ==============================
+            // SUCCESS
+            // ==============================
+            msg.textContent = "✅ Event Enrollment Submitted Successfully!";
+
+            msg.style.display = "block";
+            msg.style.background = "#e8f8ee";
+
+            // Reset only event fields
+            document.getElementById("type").value = "";
+            document.getElementById("venue").value = "";
+            document.getElementById("event").value = "";
+            document.getElementById("status").value = "";
+            document.getElementById("date").value = "";
+          } catch (error) {
+            console.error("Event enrollment error:", error);
+
+            const msg = document.getElementById("msg");
+
+            msg.textContent =
+              "❌ Cannot connect to server. Please make sure backend is running.";
+
+            msg.style.display = "block";
+            msg.style.background = "#fff0f0";
+          }
+        });
     </script>
   </body>
 </html>
