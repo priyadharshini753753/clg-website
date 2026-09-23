@@ -1,357 +1,500 @@
 const express = require("express");
-
-console.log("🔥 SERVER.JS LOADED");
-
 const cors = require("cors");
-
+const path = require("path");
+const crypto = require("crypto");
 const db = require("./db");
 
 const app = express();
-
-
-// Middleware
-app.use(cors());
-app.use(express.json());
-
-
-// Fixed register-number prefix per domain
-const DOMAIN_PREFIX = {
-    CS: "c4s",
-    AI: "a3s",
-    BCA: "b2s",
-    DSA: "d6s"
-};
-
-// Batch (e.g. "2024-2027") -> login expiry date ("2027-05-29")
-function getExpiryDateForBatch(batch) {
-    const match = /(\d{4})-(\d{4})/.exec(batch || "");
-    if (!match) return null;
-    const endYear = match[2];
-    return `${endYear}-05-29`;
-}
-
-// Create table if it doesn't exist yet
-const CREATE_TABLE_SQL = `
-  CREATE TABLE IF NOT EXISTS registrations (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    register_number VARCHAR(100) NOT NULL,
-    event VARCHAR(255) NOT NULL,
-    batch VARCHAR(20) NOT NULL DEFAULT '',
-    domain VARCHAR(10) NOT NULL DEFAULT '',
-    expiry_date DATE NULL,
-    reg_date DATE NOT NULL,
-    submitted_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE KEY unique_batch_reg_event_date (batch, register_number, event, reg_date)
-  )
-`;
-
-db.query(CREATE_TABLE_SQL, (err) => {
-    if (err) {
-        console.error("❌ Could not create registrations table:", err.message);
-        return;
-    }
-    console.log("✅ registrations table ready");
-    runMigrations();
-});
-
-// Runs once at startup, in strict order, so an older table gets upgraded
-// safely to the current schema without losing data.
-function runMigrations() {
-
-    const addColumnIfMissing = (sql, next) => {
-        db.query(sql, (err) => {
-            if (err && err.code !== "ER_DUP_FIELDNAME") {
-                console.error("⚠️  Migration step failed:", err.message);
-            }
-            next();
-        });
-    };
-
-    addColumnIfMissing(
-        "ALTER TABLE registrations ADD COLUMN batch VARCHAR(20) NOT NULL DEFAULT ''",
-        () => {
-            addColumnIfMissing(
-                "ALTER TABLE registrations ADD COLUMN domain VARCHAR(10) NOT NULL DEFAULT ''",
-                () => {
-                    addColumnIfMissing(
-                        "ALTER TABLE registrations ADD COLUMN expiry_date DATE NULL",
-                        () => {
-                            addColumnIfMissing(
-                                "ALTER TABLE registrations ADD COLUMN reg_date DATE NULL",
-                                dedupeThenBackfill
-                            );
-                        }
-                    );
-                }
-            );
-        }
-    );
-
-    // Some very old rows may share the same batch + register_number +
-    // event (from before any of these constraints existed, or from a
-    // moment where a constraint was briefly missing during an earlier
-    // migration). Backfilling reg_date on those would recreate a genuine
-    // duplicate, so clean those up first — keeping only the earliest row
-    // (lowest id) per group — before assigning dates and adding the key.
-    function dedupeThenBackfill() {
-        const dedupeSql = `
-            DELETE t1 FROM registrations t1
-            INNER JOIN registrations t2
-              ON t1.batch = t2.batch
-             AND t1.register_number = t2.register_number
-             AND t1.event = t2.event
-             AND DATE(t1.submitted_at) = DATE(t2.submitted_at)
-             AND t1.id > t2.id
-        `;
-
-        db.query(dedupeSql, (err, result) => {
-            if (err) {
-                console.error("⚠️  Could not remove duplicate rows:", err.message);
-            } else if (result && result.affectedRows > 0) {
-                console.log(`🧹 Removed ${result.affectedRows} duplicate registration row(s)`);
-            }
-            backfillRegDate();
-        });
-    }
-
-    function backfillRegDate() {
-        db.query(
-            "UPDATE registrations SET reg_date = DATE(submitted_at) WHERE reg_date IS NULL",
-            (err) => {
-                if (err) {
-                    console.error("⚠️  Could not backfill reg_date:", err.message);
-                }
-                dropOldKeys();
-            }
-        );
-    }
-
-    function dropOldKeys() {
-        db.query("ALTER TABLE registrations DROP INDEX unique_reg_event", (err) => {
-            if (err && err.code !== "ER_CANT_DROP_FIELD_OR_KEY") {
-                console.error("⚠️  Could not drop old unique key:", err.message);
-            }
-            db.query("ALTER TABLE registrations DROP INDEX unique_batch_reg_event", (err2) => {
-                if (err2 && err2.code !== "ER_CANT_DROP_FIELD_OR_KEY") {
-                    console.error("⚠️  Could not drop old composite unique key:", err2.message);
-                }
-                addNewKey();
-            });
-        });
-    }
-
-    function addNewKey() {
-        db.query(
-            "ALTER TABLE registrations ADD UNIQUE KEY unique_batch_reg_event_date (batch, register_number, event, reg_date)",
-            (err) => {
-                if (err && err.code !== "ER_DUP_KEYNAME") {
-                    console.error("⚠️  Could not add date-scoped unique key:", err.message);
-                } else {
-                    console.log("✅ Migrations complete");
-                }
-            }
-        );
-    }
-}
-
-
-// Home test
-app.get("/", (req, res) => {
-
-    res.send("MI Club Backend is running!");
-
-});
-
-
-// Database test
-app.get("/test-db", (req, res) => {
-
-    db.query("SELECT 1", (err, result) => {
-
-        if (err) {
-
-            console.error(err);
-
-            return res.status(500).json({
-                success: false,
-                message: "Database connection failed"
-            });
-
-        }
-
-        res.json({
-            success: true,
-            message: "Database connected successfully!"
-        });
-
-    });
-
-});
-
-
-// ==========================================
-// REGISTER — save a participant's event signup
-// ==========================================
-app.post("/register", (req, res) => {
-
-    const name = (req.body.name || "").trim();
-    const registerNumber = (req.body.registerNumber || "").trim();
-    const event = (req.body.event || "").trim();
-    const batch = (req.body.batch || "").trim();
-    const domain = (req.body.domain || "").trim().toUpperCase();
-
-    if (!name || !registerNumber || !event || !batch || !domain) {
-        return res.status(400).json({
-            message: "Name, Register Number, Batch, Domain and Event are all required"
-        });
-    }
-
-    const expectedPrefix = DOMAIN_PREFIX[domain];
-
-    if (!expectedPrefix) {
-        return res.status(400).json({
-            message: "Invalid domain selected"
-        });
-    }
-
-    if (!registerNumber.toLowerCase().startsWith(expectedPrefix)) {
-        return res.status(400).json({
-            message: `Register number must start with "${expectedPrefix}" for ${domain}`
-        });
-    }
-
-    const sql = `
-        INSERT INTO registrations (name, register_number, event, batch, domain, expiry_date, reg_date)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-    `;
-
-    const expiryDate = getExpiryDateForBatch(batch);
-
-    // "Today" in YYYY-MM-DD, so the same event can be registered again
-    // on a different calendar day.
-    const todayStr = new Date().toISOString().slice(0, 10);
-
-    db.query(sql, [name, registerNumber, event, batch, domain, expiryDate, todayStr], (err, result) => {
-
-        if (err) {
-
-            if (err.code === "ER_DUP_ENTRY") {
-                return res.status(409).json({
-                    message: "You have already registered for this event today"
-                });
-            }
-
-            console.error(err);
-            return res.status(500).json({
-                message: "Could not save registration"
-            });
-        }
-
-        res.status(201).json({
-            message: "Registration saved",
-            id: result.insertId
-        });
-
-    });
-
-});
-
-
-// ==========================================
-// LOGIN — verify name + register number, return their events
-// ==========================================
-app.post("/login", (req, res) => {
-
-    const name = (req.body.name || "").trim();
-    const registerNumber = (req.body.registerNumber || "").trim();
-    const batch = (req.body.batch || "").trim();
-
-    if (!name || !registerNumber || !batch) {
-        return res.status(400).json({
-            message: "Name, Batch and Register Number are required"
-        });
-    }
-
-    const sql = `
-        SELECT name, register_number, event, batch, domain, expiry_date, submitted_at
-        FROM registrations
-        WHERE LOWER(register_number) = LOWER(?)
-          AND batch = ?
-        ORDER BY submitted_at ASC
-    `;
-
-    db.query(sql, [registerNumber, batch], (err, rows) => {
-
-        if (err) {
-            console.error(err);
-            return res.status(500).json({
-                message: "Login failed, please try again"
-            });
-        }
-
-        if (rows.length === 0) {
-            return res.status(401).json({
-                message: "Invalid Name or Register Number"
-            });
-        }
-
-        const nameMatches = rows.some(
-            (row) => row.name.trim().toLowerCase() === name.toLowerCase()
-        );
-
-        if (!nameMatches) {
-            return res.status(401).json({
-                message: "Invalid Name or Register Number"
-            });
-        }
-
-        // Check batch-based login expiry
-        const expiryDate = rows[0].expiry_date;
-
-        if (expiryDate) {
-            const today = new Date();
-            const expiry = new Date(expiryDate);
-
-            // compare by date only, ignore time-of-day
-            today.setHours(0, 0, 0, 0);
-            expiry.setHours(0, 0, 0, 0);
-
-            if (today > expiry) {
-                const formattedExpiry = expiry.toLocaleDateString("en-GB", {
-                    day: "2-digit",
-                    month: "long",
-                    year: "numeric"
-                });
-
-                return res.status(403).json({
-                    message: `Login Expired. Your student login validity ended on ${formattedExpiry}. Please contact the MI Club administrator.`,
-                    expired: true
-                });
-            }
-        }
-
-        res.json({
-            participant: {
-                name: rows[0].name,
-                registerNumber: rows[0].register_number,
-                batch: rows[0].batch,
-                domain: rows[0].domain,
-                events: rows.map((row) => ({
-                    event: row.event,
-                    submittedAt: row.submitted_at
-                }))
-            }
-        });
-
-    });
-
-});
-
-
-// Start server
 const PORT = 5000;
 
+// ===============================
+// MIDDLEWARE
+// ===============================
+
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Serve frontend files
+app.use(express.static(path.join(__dirname, "../frontend")));
+
+// ===============================
+// CONSTANTS
+// ===============================
+
+const BATCHES = [
+  "2024-2027",
+  "2025-2028",
+  "2026-2029",
+];
+
+const PREFIX = {
+  CS: "c4s",
+  AI: "a3s",
+  BCA: "b2s",
+  DSA: "d6s",
+};
+
+const EXPIRY_DATE = {
+  "2024-2027": "2027-05-29",
+  "2025-2028": "2028-05-29",
+  "2026-2029": "2029-05-29",
+};
+
+// ===============================
+// HELPER
+// ===============================
+
+function isBatchExpired(batch) {
+  const expiry = new Date(
+    EXPIRY_DATE[batch] + "T23:59:59"
+  );
+
+  return new Date() > expiry;
+}
+
+// ===============================
+// HOME
+// ===============================
+
+app.get("/", (req, res) => {
+  res.send("MI Club Backend is running!");
+});
+
+// ===============================
+// REGISTER STUDENT
+// ===============================
+
+app.post("/register", (req, res) => {
+  let {
+    name = "",
+    batch = "",
+    domain = "",
+    registerNumber = "",
+  } = req.body;
+
+  name = name.trim();
+  batch = batch.trim();
+  domain = domain.trim().toUpperCase();
+  registerNumber = registerNumber.trim();
+
+  // Required fields
+  if (!name || !batch || !domain || !registerNumber) {
+    return res.status(400).json({
+      message: "All student details are required",
+    });
+  }
+
+  // Validate batch
+  if (!BATCHES.includes(batch)) {
+    return res.status(400).json({
+      message: "Invalid batch",
+    });
+  }
+
+  // Validate domain
+  if (!PREFIX[domain]) {
+    return res.status(400).json({
+      message: "Invalid domain",
+    });
+  }
+
+  // Validate register number prefix
+  const requiredPrefix = PREFIX[domain];
+
+  if (
+    !registerNumber
+      .toLowerCase()
+      .startsWith(requiredPrefix.toLowerCase())
+  ) {
+    return res.status(400).json({
+      message: `Register number must start with ${requiredPrefix}`,
+    });
+  }
+
+  // Check existing student
+  const checkSql = `
+    SELECT *
+    FROM students
+    WHERE LOWER(register_number) = LOWER(?)
+      AND batch = ?
+    LIMIT 1
+  `;
+
+  db.query(
+    checkSql,
+    [registerNumber, batch],
+    (err, results) => {
+      if (err) {
+        console.error("Registration check error:", err);
+
+        return res.status(500).json({
+          message: "Database error",
+        });
+      }
+
+      // Student already exists
+      if (results.length > 0) {
+        const student = results[0];
+
+        // Same student
+        if (
+          student.name.trim().toLowerCase() ===
+            name.toLowerCase() &&
+          student.domain.toUpperCase() === domain
+        ) {
+          return res.json({
+            message:
+              "Student already registered. You can login now.",
+          });
+        }
+
+        // Same register number but different student
+        return res.status(409).json({
+          message:
+            "This register number already belongs to another student in this batch.",
+        });
+      }
+
+      // Create permanent QR token
+      const qrToken = crypto
+        .randomBytes(24)
+        .toString("hex");
+
+      const insertSql = `
+        INSERT INTO students
+        (
+          name,
+          register_number,
+          batch,
+          domain,
+          qr_token
+        )
+        VALUES (?, ?, ?, ?, ?)
+      `;
+
+      db.query(
+        insertSql,
+        [
+          name,
+          registerNumber,
+          batch,
+          domain,
+          qrToken,
+        ],
+        (insertErr) => {
+          if (insertErr) {
+            console.error(
+              "Student registration error:",
+              insertErr
+            );
+
+            return res.status(500).json({
+              message: "Registration failed",
+            });
+          }
+
+          return res.json({
+            message:
+              "Registration submitted successfully",
+          });
+        }
+      );
+    }
+  );
+});
+
+// ===============================
+// LOGIN
+// ===============================
+
+app.post("/login", (req, res) => {
+  let {
+    name = "",
+    batch = "",
+    registerNumber = "",
+  } = req.body;
+
+  name = name.trim();
+  batch = batch.trim();
+  registerNumber = registerNumber.trim();
+
+  if (!name || !batch || !registerNumber) {
+    return res.status(400).json({
+      message:
+        "Name, Batch and Register Number are required",
+    });
+  }
+
+  if (!BATCHES.includes(batch)) {
+    return res.status(400).json({
+      message: "Invalid batch selected",
+    });
+  }
+
+  const sql = `
+    SELECT
+      name,
+      register_number,
+      batch,
+      domain,
+      qr_token
+    FROM students
+    WHERE LOWER(register_number) = LOWER(?)
+      AND batch = ?
+    LIMIT 1
+  `;
+
+  db.query(
+    sql,
+    [registerNumber, batch],
+    (err, results) => {
+      if (err) {
+        console.error("Login error:", err);
+
+        return res.status(500).json({
+          message: "Login failed",
+        });
+      }
+
+      // Student not found
+      if (results.length === 0) {
+        return res.status(401).json({
+          message:
+            "Invalid Name, Batch or Register Number",
+        });
+      }
+
+      const student = results[0];
+
+      // Check name
+      if (
+        student.name.trim().toLowerCase() !==
+        name.toLowerCase()
+      ) {
+        return res.status(401).json({
+          message:
+            "Invalid Name, Batch or Register Number",
+        });
+      }
+
+      // Check batch expiry
+      if (isBatchExpired(batch)) {
+        return res.status(403).json({
+          expired: true,
+          message:
+            `Your batch (${batch}) login validity has expired.`,
+        });
+      }
+
+      // Successful login
+      return res.json({
+        message: "Login successful",
+
+        participant: {
+          name: student.name,
+          registerNumber: student.register_number,
+          batch: student.batch,
+          domain: student.domain,
+          qrToken: student.qr_token,
+        },
+      });
+    }
+  );
+});
+
+// ===============================
+// EVENT ENROLLMENT
+// ===============================
+
+app.post("/event-enroll", (req, res) => {
+  const {
+    qrToken,
+    eventType,
+    venue,
+    participantEvent,
+    status,
+    eventDate,
+  } = req.body;
+
+  // Required fields
+  if (
+    !qrToken ||
+    !eventType ||
+    !venue ||
+    !participantEvent ||
+    !status ||
+    !eventDate
+  ) {
+    return res.status(400).json({
+      message: "All event details are required",
+    });
+  }
+
+  // Find student using permanent QR token
+  const studentSql = `
+    SELECT id
+    FROM students
+    WHERE qr_token = ?
+    LIMIT 1
+  `;
+
+  db.query(
+    studentSql,
+    [qrToken],
+    (err, results) => {
+      if (err) {
+        console.error(
+          "Event student lookup error:",
+          err
+        );
+
+        return res.status(500).json({
+          message: "Database error",
+        });
+      }
+
+      if (results.length === 0) {
+        return res.status(401).json({
+          message: "Invalid student session",
+        });
+      }
+
+      const studentId = results[0].id;
+
+      const insertSql = `
+        INSERT INTO event_enrollments
+        (
+          student_id,
+          event_type,
+          venue,
+          participant_event,
+          status,
+          event_date
+        )
+        VALUES (?, ?, ?, ?, ?, ?)
+      `;
+
+      db.query(
+        insertSql,
+        [
+          studentId,
+          eventType,
+          venue,
+          participantEvent,
+          status,
+          eventDate,
+        ],
+        (insertErr) => {
+          if (insertErr) {
+            console.error(
+              "Event enrollment error:",
+              insertErr
+            );
+
+            return res.status(500).json({
+              message:
+                "Event enrollment failed",
+            });
+          }
+
+          return res.json({
+            message:
+              "Event enrollment submitted successfully",
+          });
+        }
+      );
+    }
+  );
+});
+
+// ===============================
+// STUDENT PROFILE + EVENT HISTORY
+// ===============================
+
+app.get("/api/student/:token", (req, res) => {
+  const qrToken = req.params.token;
+
+  const studentSql = `
+    SELECT
+      id,
+      name,
+      register_number,
+      batch,
+      domain
+    FROM students
+    WHERE qr_token = ?
+    LIMIT 1
+  `;
+
+  db.query(
+    studentSql,
+    [qrToken],
+    (err, results) => {
+      if (err) {
+        console.error(
+          "Student profile error:",
+          err
+        );
+
+        return res.status(500).json({
+          message: "Database error",
+        });
+      }
+
+      if (results.length === 0) {
+        return res.status(404).json({
+          message: "Student not found",
+        });
+      }
+
+      const student = results[0];
+
+      // Get ALL events for this student
+      const eventSql = `
+        SELECT
+          event_type,
+          venue,
+          participant_event,
+          status,
+          event_date
+        FROM event_enrollments
+        WHERE student_id = ?
+        ORDER BY event_date ASC, id ASC
+      `;
+
+      db.query(
+        eventSql,
+        [student.id],
+        (eventErr, events) => {
+          if (eventErr) {
+            console.error(
+              "Event history error:",
+              eventErr
+            );
+
+            return res.status(500).json({
+              message:
+                "Could not load event history",
+            });
+          }
+
+          return res.json({
+            student: student,
+            events: events,
+          });
+        }
+      );
+    }
+  );
+});
+
+// ===============================
+// SERVER START
+// ===============================
+
 app.listen(PORT, () => {
-    console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(
+    `🚀 Server running on http://localhost:${PORT}`
+  );
 });
