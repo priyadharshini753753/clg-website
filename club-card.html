@@ -7,6 +7,7 @@
     <title>MI Club Membership Card | Mangayarkarasi College</title>
 
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
     <style>
       * {
@@ -367,6 +368,40 @@
         box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
 
         color: #000;
+      }
+
+      .card-qr {
+        position: absolute;
+        right: 22px;
+        bottom: 45px;
+        z-index: 4;
+        width: 104px;
+        text-align: center;
+      }
+
+      #qrCode {
+        width: 94px;
+        height: 94px;
+        margin: 0 auto;
+        padding: 2px;
+        background: #fff;
+        border: 2px solid #000;
+        border-radius: 5px;
+      }
+
+      #qrCode img,
+      #qrCode canvas {
+        width: 90px !important;
+        height: 90px !important;
+        display: block;
+      }
+
+      .qr-label {
+        margin-top: 4px;
+        color: #000;
+        font-size: 7px;
+        font-weight: 900;
+        letter-spacing: 0.5px;
       }
 
       /* Inner border */
@@ -1178,6 +1213,12 @@
                 </div>
               </div>
 
+              <!-- ================= QR CODE ================= -->
+              <div class="card-qr">
+                <div id="qrCode"></div>
+                <div class="qr-label">SCAN FOR PROFILE</div>
+              </div>
+
               <!-- ================= CARD FOOTER ================= -->
 
               <div class="card-footer">
@@ -1247,6 +1288,35 @@
 
         document.getElementById("previewDomain").textContent =
           participant.domain || "—";
+
+        generateQRCode();
+      }
+
+      /* ==========================================
+         STUDENT QR CODE
+      ========================================== */
+      function generateQRCode() {
+        const qrContainer = document.getElementById("qrCode");
+        qrContainer.innerHTML = "";
+
+        if (
+          !participant ||
+          !participant.qrToken ||
+          typeof QRCode === "undefined"
+        ) {
+          return;
+        }
+
+        const profileUrl = `${location.origin}/student-profile.html?token=${encodeURIComponent(participant.qrToken)}`;
+
+        new QRCode(qrContainer, {
+          text: profileUrl,
+          width: 90,
+          height: 90,
+          colorDark: "#000000",
+          colorLight: "#ffffff",
+          correctLevel: QRCode.CorrectLevel.H,
+        });
       }
 
       /* ==========================================
