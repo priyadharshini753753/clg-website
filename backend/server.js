@@ -5,6 +5,9 @@ const crypto = require("crypto");
 const db = require("./db");
 
 const app = express();
+app.get("/admin", (req, res) => {
+    res.sendFile(path.join(__dirname, "../admin/index.html"));
+});
 const PORT = 5000;
 
 // ===============================
