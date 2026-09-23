@@ -30,7 +30,6 @@
         padding: 30px;
       }
 
-
       /* TOP NAVIGATION */
       .top-nav {
         width: 100%;
@@ -49,7 +48,7 @@
         font-weight: 700;
         padding: 9px 12px;
         border-radius: 9px;
-        background: rgba(255,255,255,0.8);
+        background: rgba(255, 255, 255, 0.8);
         border: 1px solid #e5e0fb;
       }
 
@@ -427,7 +426,6 @@
         background: #f5f5f5;
       }
 
-
       /* CLUB CARD BUTTON */
       .club-card-btn {
         width: 100%;
@@ -627,10 +625,10 @@
 ========================================== */
 
       const DOMAIN_PREFIX = {
-        CS: "c4s",
-        AI: "a3s",
-        BCA: "b2s",
-        DSA: "d6s",
+        CS: "C4S208",
+        AI: "C4S207",
+        BCA: "C4S204",
+        DSA: "C5S206",
       };
 
       document.getElementById("domain").addEventListener("change", function () {
@@ -789,7 +787,7 @@
           // Save logged-in participant for the Club Card page
           localStorage.setItem(
             "miClubParticipant",
-            JSON.stringify(participant)
+            JSON.stringify(participant),
           );
 
           document.getElementById("eventsBox").style.display = "block";
