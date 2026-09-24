@@ -50,7 +50,6 @@ async function api(path, opt = {}) {
 
 function logout() {
   localStorage.removeItem("miAdminToken");
-
   token = null;
 
   $("app").classList.add("hidden");
@@ -141,6 +140,7 @@ async function load(s) {
   }[s];
 
   try {
+
     const functions = {
       dashboard,
       staff,
@@ -153,6 +153,7 @@ async function load(s) {
     await functions[s]();
 
   } catch (e) {
+
     $("content").innerHTML = `
       <div class="panel">
         ❌ ${esc(e.message)}
@@ -167,9 +168,11 @@ async function load(s) {
 ========================= */
 
 async function dashboard() {
+
   const d = await api("/admin/analytics");
 
   $("content").innerHTML = `
+
     <div class="stats">
 
       <div class="stat">
@@ -214,6 +217,7 @@ async function dashboard() {
 
     </div>
 
+
     <div class="panel" style="margin-top:20px">
 
       <div class="panelhead">
@@ -223,6 +227,7 @@ async function dashboard() {
       <div class="chart">
 
         ${d.daily.map((x) => `
+
           <div class="barwrap">
 
             <b>${x.views}</b>
@@ -238,6 +243,7 @@ async function dashboard() {
             <small>${x.day}</small>
 
           </div>
+
         `).join("")}
 
       </div>
@@ -258,6 +264,7 @@ function modal(title, body, save) {
   m.className = "modal";
 
   m.innerHTML = `
+
     <div class="modalbox">
 
       <div class="modalhead">
@@ -308,9 +315,11 @@ function modal(title, body, save) {
 }
 
 
-/* =========================
-   STAFF
-========================= */
+/* =====================================================
+   STAFF / FACULTIES
+   30 STAFF
+   EDIT + DELETE + ADD STAFF
+===================================================== */
 
 async function staff() {
 
@@ -320,9 +329,25 @@ async function staff() {
 
     <div class="panel">
 
+      <!-- STAFF HEADER -->
+
       <div class="panelhead">
 
-        <h3>Faculties / Staff</h3>
+        <div>
+          <h3>Faculties / Staff</h3>
+
+          <span style="
+            display:block;
+            margin-top:5px;
+            color:#64748b;
+            font-size:13px;
+          ">
+            ${rows.length} Staff Members
+          </span>
+        </div>
+
+
+        <!-- TOP RIGHT ADD STAFF -->
 
         <button
           class="add"
@@ -333,52 +358,111 @@ async function staff() {
 
       </div>
 
+
+      <!-- STAFF CARDS -->
+
       <div class="cards">
 
-        ${rows.map((r) => `
+        ${
+          rows.length
+            ? rows.map((r) => `
 
-          <div class="card">
+              <div class="card">
 
-            <img
-              src="/${esc(
-                r.image || "images/logo3.png"
-              )}"
-              onerror="this.src='/images/logo3.png'"
-            >
+                <!-- STAFF PHOTO -->
 
-            <div class="cardbody">
-
-              <h3>${esc(r.name)}</h3>
-
-              <h4>${esc(r.designation)}</h4>
-
-              <p>
-                ${esc(r.description || "")}
-              </p>
-
-              <div class="actions">
-
-                <button
-                  class="btn edit"
-                  onclick='staffForm(${JSON.stringify(r)})'
+                <img
+                  src="/${esc(
+                    r.image || "images/logo3.png"
+                  )}"
+                  onerror="
+                    this.src='/images/logo3.png'
+                  "
                 >
-                  Edit
-                </button>
 
-                <button
-                  class="btn del"
-                  onclick="del('staff', ${r.id})"
-                >
-                  Delete
-                </button>
+
+                <div class="cardbody">
+
+                  <!-- NAME -->
+
+                  <h3>
+                    ${esc(r.name)}
+                  </h3>
+
+
+                  <!-- DESIGNATION -->
+
+                  <h4>
+                    ${esc(r.designation)}
+                  </h4>
+
+
+                  <!-- QUALIFICATION -->
+
+                  ${
+                    r.qualification
+                      ? `
+                        <p>
+                          <strong>
+                            ${esc(r.qualification)}
+                          </strong>
+                        </p>
+                      `
+                      : ""
+                  }
+
+
+                  <!-- DESCRIPTION -->
+
+                  <p>
+                    ${esc(r.description || "")}
+                  </p>
+
+
+                  <!-- EDIT + DELETE -->
+
+                  <div class="actions">
+
+                    <button
+                      class="btn edit"
+                      onclick='staffForm(${JSON.stringify(r)})'
+                    >
+                      ✏ Edit
+                    </button>
+
+
+                    <button
+                      class="btn del"
+                      onclick="del('staff', ${r.id})"
+                    >
+                      🗑 Delete
+                    </button>
+
+                  </div>
+
+                </div>
 
               </div>
 
-            </div>
+            `).join("")
+            : `
+              <div
+                class="panel"
+                style="
+                  grid-column:1/-1;
+                  text-align:center;
+                  padding:50px;
+                "
+              >
+                <h3>No Staff Members Found</h3>
 
-          </div>
-
-        `).join("")}
+                <p>
+                  Click "+ Add Staff" to create the
+                  first staff member.
+                </p>
+              </div>
+            `
+        }
 
       </div>
 
@@ -388,9 +472,10 @@ async function staff() {
 }
 
 
-/* =========================
+/* =====================================================
    STAFF FORM
-========================= */
+   ADD + EDIT
+===================================================== */
 
 function staffForm(r) {
 
@@ -398,56 +483,80 @@ function staffForm(r) {
 
   modal(
 
-    r.id ? "Edit Staff" : "Add Staff",
+    r.id
+      ? "Edit Staff"
+      : "Add Staff",
 
     `
 
       <form class="form">
 
+        <!-- NAME -->
+
         <label>
+
           Name
 
           <input
             name="name"
             value="${esc(r.name)}"
+            placeholder="Enter staff name"
             required
           >
+
         </label>
 
 
+        <!-- DESIGNATION -->
+
         <label>
+
           Designation
 
           <input
             name="designation"
             value="${esc(r.designation)}"
+            placeholder="Professor / Assistant Professor"
             required
           >
+
         </label>
 
 
+        <!-- QUALIFICATION -->
+
         <label class="full">
+
           Qualification
 
           <input
             name="qualification"
             value="${esc(r.qualification)}"
+            placeholder="M.C.A., M.Phil., Ph.D."
           >
+
         </label>
 
 
+        <!-- DESCRIPTION -->
+
         <label class="full">
+
           Description
 
           <textarea
             name="description"
             rows="4"
+            placeholder="Enter staff description"
           >${esc(r.description)}</textarea>
 
         </label>
 
 
+        <!-- PHOTO -->
+
         <label class="full">
+
           Photo Path
 
           <input
@@ -455,11 +564,14 @@ function staffForm(r) {
             value="${esc(
               r.image || "images/staff1.png"
             )}"
+            placeholder="images/staff1.png"
             required
           >
 
         </label>
 
+
+        <!-- BUTTONS -->
 
         <div class="formactions">
 
@@ -470,8 +582,15 @@ function staffForm(r) {
             Cancel
           </button>
 
+
           <button class="add">
-            ${r.id ? "Update Staff" : "Add Staff"}
+
+            ${
+              r.id
+                ? "Update Staff"
+                : "Add Staff"
+            }
+
           </button>
 
         </div>
@@ -486,7 +605,10 @@ function staffForm(r) {
           ? "/admin/staff/" + r.id
           : "/admin/staff",
         {
-          method: r.id ? "PUT" : "POST",
+          method: r.id
+            ? "PUT"
+            : "POST",
+
           body: JSON.stringify(d)
         }
       )
@@ -530,14 +652,20 @@ async function council() {
               src="/${esc(
                 r.image || "images/logo3.png"
               )}"
-              onerror="this.src='/images/logo3.png'"
+              onerror="
+                this.src='/images/logo3.png'
+              "
             >
 
             <div class="cardbody">
 
-              <h3>${esc(r.name)}</h3>
+              <h3>
+                ${esc(r.name)}
+              </h3>
 
-              <h4>${esc(r.designation)}</h4>
+              <h4>
+                ${esc(r.designation)}
+              </h4>
 
               <p>
                 ${esc(r.description || "")}
@@ -594,6 +722,7 @@ function councilForm(r) {
       <form class="form">
 
         <label>
+
           Name
 
           <input
@@ -601,10 +730,12 @@ function councilForm(r) {
             value="${esc(r.name)}"
             required
           >
+
         </label>
 
 
         <label>
+
           Designation
 
           <input
@@ -612,20 +743,24 @@ function councilForm(r) {
             value="${esc(r.designation)}"
             required
           >
+
         </label>
 
 
         <label class="full">
+
           Description
 
           <textarea
             name="description"
             rows="4"
           >${esc(r.description)}</textarea>
+
         </label>
 
 
         <label class="full">
+
           Photo Path
 
           <input
@@ -635,6 +770,7 @@ function councilForm(r) {
             )}"
             required
           >
+
         </label>
 
 
@@ -648,7 +784,13 @@ function councilForm(r) {
           </button>
 
           <button class="add">
-            ${r.id ? "Update" : "Add Member"}
+
+            ${
+              r.id
+                ? "Update"
+                : "Add Member"
+            }
+
           </button>
 
         </div>
@@ -663,7 +805,10 @@ function councilForm(r) {
           ? "/admin/council/" + r.id
           : "/admin/council",
         {
-          method: r.id ? "PUT" : "POST",
+          method: r.id
+            ? "PUT"
+            : "POST",
+
           body: JSON.stringify(d)
         }
       )
@@ -707,12 +852,16 @@ async function events() {
               src="/${esc(
                 r.image || "images/logo3.png"
               )}"
-              onerror="this.src='/images/logo3.png'"
+              onerror="
+                this.src='/images/logo3.png'
+              "
             >
 
             <div class="cardbody">
 
-              <h3>${esc(r.name)}</h3>
+              <h3>
+                ${esc(r.name)}
+              </h3>
 
               <p>
 
@@ -774,13 +923,16 @@ function eventForm(r) {
 
   modal(
 
-    r.id ? "Edit Event" : "Add Event",
+    r.id
+      ? "Edit Event"
+      : "Add Event",
 
     `
 
       <form class="form">
 
         <label>
+
           Event Name
 
           <input
@@ -788,10 +940,12 @@ function eventForm(r) {
             value="${esc(r.name)}"
             required
           >
+
         </label>
 
 
         <label>
+
           Date
 
           <input
@@ -799,10 +953,12 @@ function eventForm(r) {
             name="event_date"
             value="${esc(r.event_date)}"
           >
+
         </label>
 
 
         <label>
+
           Venue
 
           <input
@@ -810,50 +966,60 @@ function eventForm(r) {
             value="${esc(r.venue)}"
             required
           >
+
         </label>
 
 
         <label>
+
           Time
 
           <input
             name="event_time"
             value="${esc(r.event_time)}"
           >
+
         </label>
 
 
         <label>
+
           Team Info
 
           <input
             name="team_info"
             value="${esc(r.team_info)}"
           >
+
         </label>
 
 
         <label>
+
           Details Page
 
           <input
             name="details_url"
             value="${esc(r.details_url)}"
           >
+
         </label>
 
 
         <label class="full">
+
           Description
 
           <textarea
             name="description"
             rows="4"
           >${esc(r.description)}</textarea>
+
         </label>
 
 
         <label class="full">
+
           Image Path
 
           <input
@@ -863,6 +1029,7 @@ function eventForm(r) {
             )}"
             required
           >
+
         </label>
 
 
@@ -876,7 +1043,13 @@ function eventForm(r) {
           </button>
 
           <button class="add">
-            ${r.id ? "Update Event" : "Add Event"}
+
+            ${
+              r.id
+                ? "Update Event"
+                : "Add Event"
+            }
+
           </button>
 
         </div>
@@ -891,7 +1064,10 @@ function eventForm(r) {
           ? "/admin/events/" + r.id
           : "/admin/events",
         {
-          method: r.id ? "PUT" : "POST",
+          method: r.id
+            ? "PUT"
+            : "POST",
+
           body: JSON.stringify(d)
         }
       )
@@ -912,18 +1088,22 @@ async function feedback() {
     <div class="panel">
 
       <div class="panelhead">
+
         <h3>Queries & Feedback</h3>
+
       </div>
 
 
       <table class="table">
 
         <tr>
+
           <th>Name</th>
           <th>Register Number</th>
           <th>Message</th>
           <th>Date</th>
           <th>Action</th>
+
         </tr>
 
 
@@ -931,10 +1111,14 @@ async function feedback() {
 
           <tr>
 
-            <td>${esc(r.name)}</td>
+            <td>
+              ${esc(r.name)}
+            </td>
 
             <td>
-              ${esc(r.register_number || "-")}
+              ${esc(
+                r.register_number || "-"
+              )}
             </td>
 
             <td>
@@ -996,11 +1180,13 @@ async function students() {
       <table class="table">
 
         <tr>
+
           <th>Name</th>
           <th>Register Number</th>
           <th>Batch</th>
           <th>Domain</th>
           <th>Date</th>
+
         </tr>
 
 
@@ -1008,7 +1194,9 @@ async function students() {
 
           <tr>
 
-            <td>${esc(r.name)}</td>
+            <td>
+              ${esc(r.name)}
+            </td>
 
             <td>
               ${esc(r.register_number)}
