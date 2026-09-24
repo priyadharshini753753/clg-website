@@ -755,16 +755,38 @@
 
         box-shadow: 0 6px 18px rgba(29, 112, 229, 0.25);
       }
+      /* FULL SCREEN IMAGE BACKGROUND */
+      .image-background {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100vh;
+        z-index: -2;
+        overflow: hidden;
+      }
+
+      .image-background img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        display: block;
+      }
+
+      .image-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(2px);
+      }
     </style>
   </head>
 
   <body>
-    <!-- FULL SCREEN VIDEO BACKGROUND -->
-    <div class="video-background">
-      <video autoplay muted loop playsinline preload="auto">
-        <source src="images/cosmic.mp4" type="video/mp4" />
-      </video>
-      <div class="video-overlay"></div>
+    <!-- FULL SCREEN IMAGE BACKGROUND -->
+    <div class="image-background">
+      <img src="images/kt1.jpg" alt="Background" />
+      <div class="image-overlay"></div>
     </div>
 
     <header class="top-header">
@@ -842,14 +864,30 @@
       <div class="feedback-box">
         <h2>Feedback</h2>
 
-        <form class="message-form">
-          <input type="text" placeholder="Your Name" required />
+        <form class="message-form" id="feedbackForm">
+          <input
+            type="text"
+            id="feedbackName"
+            placeholder="Your Name"
+            required
+          />
 
-          <input type="text" placeholder="Your Register Number" required />
+          <input
+            type="text"
+            id="feedbackRegister"
+            placeholder="Your Register Number"
+            required
+          />
 
-          <textarea placeholder="Your Message" required></textarea>
+          <textarea
+            id="feedbackMessage"
+            placeholder="Your Message"
+            required
+          ></textarea>
 
           <button type="submit" class="send-btn">✈ Send Message</button>
+
+          <div id="feedbackMsg"></div>
         </form>
       </div>
     </section>
@@ -903,5 +941,72 @@
 
       <div class="footer-bottom">© 2026 MI CLUB. All Rights Reserved.</div>
     </footer>
+    <script>
+      const API = "http://localhost:5000";
+
+      document
+        .getElementById("feedbackForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const name = document.getElementById("feedbackName").value.trim();
+
+          const registerNumber = document
+            .getElementById("feedbackRegister")
+            .value.trim();
+
+          const message = document
+            .getElementById("feedbackMessage")
+            .value.trim();
+
+          const feedbackMsg = document.getElementById("feedbackMsg");
+
+          if (!name || !registerNumber || !message) {
+            feedbackMsg.textContent = "❌ Please fill all fields.";
+
+            feedbackMsg.style.color = "red";
+            return;
+          }
+
+          try {
+            const response = await fetch(API + "/feedback", {
+              method: "POST",
+
+              headers: {
+                "Content-Type": "application/json",
+              },
+
+              body: JSON.stringify({
+                name,
+                registerNumber,
+                message,
+              }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+              feedbackMsg.textContent =
+                "❌ " + (data.message || "Feedback submission failed");
+
+              feedbackMsg.style.color = "red";
+              return;
+            }
+
+            feedbackMsg.textContent = "✅ Feedback submitted successfully!";
+
+            feedbackMsg.style.color = "green";
+
+            document.getElementById("feedbackForm").reset();
+          } catch (error) {
+            console.error("Feedback error:", error);
+
+            feedbackMsg.textContent =
+              "❌ Cannot connect to server. Please make sure backend is running.";
+
+            feedbackMsg.style.color = "red";
+          }
+        });
+    </script>
   </body>
 </html>

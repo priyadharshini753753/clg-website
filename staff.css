@@ -635,3 +635,28 @@ body {
           background: rgba(255, 255, 255, 0.62);
         }
       }
+
+      /* FULL SCREEN IMAGE BACKGROUND */
+.image-background {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: -2;
+  overflow: hidden;
+}
+
+.image-background img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(2px);
+}

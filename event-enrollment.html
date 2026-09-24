@@ -72,6 +72,35 @@
         text-align: center;
         font-weight: 700;
       }
+
+      .certificate-upload {
+        background: rgba(255, 255, 255, 0.35);
+        border: 2px dashed rgba(86, 62, 217, 0.45);
+        border-radius: 14px;
+        padding: 22px;
+        text-align: center;
+        transition: 0.3s ease;
+      }
+
+      .certificate-upload:hover {
+        background: rgba(255, 255, 255, 0.55);
+        border-color: #563ed9;
+      }
+
+      .certificate-upload input[type="file"] {
+        width: 100%;
+        border: 0;
+        background: transparent;
+        padding: 8px;
+        cursor: pointer;
+      }
+
+      .certificate-upload small {
+        display: block;
+        margin-top: 8px;
+        color: #777;
+        font-size: 12px;
+      }
     </style>
   </head>
   <body>
@@ -104,6 +133,7 @@
             <option>Code Relay</option>
             <option>Web Designing</option>
             <option>Logo Designing</option>
+            <option>Hackthon</option>
           </select>
         </div>
         <div class="g">
@@ -118,6 +148,25 @@
         <div class="g">
           <label>Event Date</label><input type="date" id="date" required />
         </div>
+
+        <div class="g">
+          <label>Certificate</label>
+
+          <div class="certificate-upload">
+            <input
+              type="file"
+              id="certificate"
+              accept="image/png,image/jpeg,image/jpg,application/pdf"
+            />
+
+            <small>
+              Upload certificate as Image or PDF
+              <br />
+              JPG, PNG, JPEG or PDF
+            </small>
+          </div>
+        </div>
+
         <button class="btn">Submit Event Enrollment</button
         ><button
           type="button"
@@ -166,6 +215,8 @@
           const status = document.getElementById("status").value.trim();
 
           const eventDate = document.getElementById("date").value.trim();
+          const certificateFile =
+            document.getElementById("certificate").files[0];
 
           // ==============================
           // VALIDATION
@@ -177,14 +228,13 @@
             !venue ||
             !participantEvent ||
             !status ||
-            !eventDate
+            !eventDate ||
+            !certificateFile
           ) {
             const msg = document.getElementById("msg");
-
-            msg.textContent = "❌ All event details are required";
+            msg.textContent = "❌ Please upload your certificate";
             msg.style.display = "block";
             msg.style.background = "#fff0f0";
-
             return;
           }
 

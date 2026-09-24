@@ -19,8 +19,8 @@
 
         background:
           radial-gradient(circle at top left, #d7f7fa, transparent 45%),
-          radial-gradient(circle at bottom right, #e3eaff, transparent 45%),
-          #f8f4fa;
+          radial-gradient(circle at bottom right, #8be3f7, transparent 45%),
+          #2f5a66;
 
         display: flex;
         flex-direction: column;
@@ -43,7 +43,7 @@
 
       .top-nav a {
         text-decoration: none;
-        color: #563ed9;
+        color: #020205;
         font-size: 13px;
         font-weight: 700;
         padding: 9px 12px;
@@ -53,37 +53,47 @@
       }
 
       .top-nav a:hover {
-        background: #563ed9;
+        background: #ebeaf0;
         color: #fff;
       }
 
-      /* MAIN CONTAINER */
+      /* =========================
+           MAIN CONTAINER - GLASSMORPHISM
+        ========================= */
 
       .container {
         width: 100%;
         max-width: 520px;
 
-        background: rgba(255, 255, 255, 0.92);
+        /* Glass effect */
+        background: rgba(255, 255, 255, 0.18);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
 
         padding: 40px;
 
         border-radius: 24px;
 
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+        /* Glass border */
+        border: 1px solid rgba(255, 255, 255, 0.35);
 
-        border: 1px solid rgba(255, 255, 255, 0.8);
+        /* Soft glass shadow */
+        box-shadow:
+          0 20px 50px rgba(0, 0, 0, 0.15),
+          inset 0 1px 1px rgba(255, 255, 255, 0.35);
+
+        color: #111827;
       }
-
       /* HEADER */
 
       .club-title {
         text-align: center;
 
-        font-size: 32px;
+        font-size: 40px;
 
         font-weight: 800;
 
-        color: #563ed9;
+        color: #f4f3f8;
 
         margin-bottom: 8px;
       }
@@ -178,7 +188,7 @@
 
         border-radius: 11px;
 
-        background: #563ed9;
+        background: #816fe3;
 
         color: white;
 
@@ -475,7 +485,7 @@
     <div class="container">
       <!-- HEADER -->
 
-      <h1 class="club-title">𝓜𝓘 𝓒𝓛𝓤𝓑</h1>
+      <h1 class="club-title">𝑴𝑰 𝑪𝑳𝑼𝑩</h1>
 
       <p class="subtitle">Participant Registration</p>
 

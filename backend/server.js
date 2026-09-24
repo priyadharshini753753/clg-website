@@ -1343,7 +1343,75 @@ function isBatchExpired(batch) {
   return new Date() > expiry;
 }
 
+// ==========================================
+// FEEDBACK
+// Save contact page feedback
+// ==========================================
 
+app.post("/feedback", (req, res) => {
+
+    const name = String(req.body.name || "").trim();
+
+    const registerNumber =
+        String(req.body.registerNumber || "").trim();
+
+    const message =
+        String(req.body.message || "").trim();
+
+    // REQUIRED FIELD CHECK
+    if (!name || !registerNumber || !message) {
+
+        return res.status(400).json({
+            success: false,
+            message: "Name, Register Number and Message are required"
+        });
+    }
+
+    const sql = `
+        INSERT INTO feedback
+        (
+            name,
+            register_number,
+            message
+        )
+        VALUES (?, ?, ?)
+    `;
+
+    db.query(
+        sql,
+        [
+            name,
+            registerNumber,
+            message
+        ],
+        (err, result) => {
+
+            if (err) {
+
+                console.error(
+                    "❌ Feedback save error:",
+                    err
+                );
+
+                return res.status(500).json({
+                    success: false,
+                    message: "Could not save feedback"
+                });
+            }
+
+            console.log(
+                "✅ Feedback saved:",
+                result.insertId
+            );
+
+            res.status(201).json({
+                success: true,
+                message: "Feedback submitted successfully",
+                id: result.insertId
+            });
+        }
+    );
+});
 /* =========================================================
    REGISTER STUDENT
 ========================================================= */
